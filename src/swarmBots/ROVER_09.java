@@ -34,8 +34,8 @@ public class ROVER_09 {
 
 	public ROVER_09() {
 		// constructor
-		System.out.println("ROVER_99 rover object constructed");
-		rovername = "ROVER_99";
+		System.out.println("ROVER_09 rover object constructed");
+		rovername = "ROVER_09";
 		SERVER_ADDRESS = "localhost";
 		// this should be a safe but slow timer value
 		sleepTime = 300; // in milliseconds - smaller is faster, but the server will cut connection if it is too small
@@ -43,8 +43,8 @@ public class ROVER_09 {
 	
 	public ROVER_09(String serverAddress) {
 		// constructor
-		System.out.println("ROVER_99 rover object constructed");
-		rovername = "ROVER_99";
+		System.out.println("ROVER_09 rover object constructed");
+		rovername = "ROVER_09";
 		SERVER_ADDRESS = serverAddress;
 		sleepTime = 200; // in milliseconds - smaller is faster, but the server will cut connection if it is too small
 	}
@@ -109,14 +109,14 @@ public class ROVER_09 {
 			out.println("LOC");
 			line = in.readLine();
             if (line == null) {
-            	System.out.println("ROVER_99 check connection to server");
+            	System.out.println("ROVER_09 check connection to server");
             	line = "";
             }
 			if (line.startsWith("LOC")) {
 				// loc = line.substring(4);
 				currentLoc = extractLOC(line);
 			}
-			System.out.println("ROVER_99 currentLoc at start: " + currentLoc);
+			System.out.println("ROVER_09 currentLoc at start: " + currentLoc);
 			
 			// after getting location set previous equal current to be able to check for stuckness and blocked later
 			previousLoc = currentLoc;
@@ -127,7 +127,7 @@ public class ROVER_09 {
 			ArrayList<String> equipment = new ArrayList<String>();
 			equipment = getEquipment();
 			//System.out.println("ROVER_99 equipment list results drive " + equipment.get(0));
-			System.out.println("ROVER_99 equipment list results " + equipment + "\n");
+			System.out.println("ROVER_09 equipment list results " + equipment + "\n");
 			
 	
 
@@ -171,14 +171,14 @@ public class ROVER_09 {
 					} else {
 						// request to server to move
 						out.println("MOVE E");
-						System.out.println("ROVER_99 request move E");
+						System.out.println("ROVER_09 request move E");
 					}
 					
 				} else {
 					// check scanMap to see if path is blocked to the north
 					// (scanMap may be old data by now)
-					System.out.println("ROVER_99 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
-					System.out.println("ROVER_99 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
+					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
+					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
 					
 					if (scanMapTiles[centerIndex][centerIndex -1].getHasRover() 
 							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.ROCK
@@ -187,7 +187,7 @@ public class ROVER_09 {
 					} else {
 						// request to server to move
 						out.println("MOVE W");
-						System.out.println("ROVER_99 request move W");
+						System.out.println("ROVER_09 request move W");
 					}
 					
 				}
@@ -201,19 +201,19 @@ public class ROVER_09 {
 				currentLoc = extractLOC(line);
 			}
 
-			System.out.println("ROVER_99 currentLoc after recheck: " + currentLoc);
-			System.out.println("ROVER_99 previousLoc: " + previousLoc);
+			System.out.println("ROVER_09 currentLoc after recheck: " + currentLoc);
+			System.out.println("ROVER_09 previousLoc: " + previousLoc);
 
 			// test for stuckness
 			stuck = currentLoc.equals(previousLoc);
 
-			System.out.println("ROVER_99 stuck test " + stuck);
-			System.out.println("ROVER_99 blocked test " + blocked);
+			System.out.println("ROVER_09 stuck test " + stuck);
+			System.out.println("ROVER_09 blocked test " + blocked);
 
 			
 			Thread.sleep(sleepTime);
 			
-			System.out.println("ROVER_99 ------------ bottom process control --------------"); 
+			System.out.println("ROVER_09 ------------ bottom process control --------------"); 
 
 		}
 
