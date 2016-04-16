@@ -275,11 +275,11 @@ public class ROVER_09 {
 
 		String jsonScanMapIn = in.readLine(); //grabs the string that was returned first
 		if(jsonScanMapIn == null){
-			System.out.println("ROVER_99 check connection to server");
+			System.out.println("ROVER_09 check connection to server");
 			jsonScanMapIn = "";
 		}
 		StringBuilder jsonScanMap = new StringBuilder();
-		System.out.println("ROVER_99 incomming SCAN result - first readline: " + jsonScanMapIn);
+		System.out.println("ROVER_09 incomming SCAN result - first readline: " + jsonScanMapIn);
 		
 		if(jsonScanMapIn.startsWith("SCAN")){	
 			while (!(jsonScanMapIn = in.readLine()).equals("SCAN_END")) {
