@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -78,11 +80,7 @@ public class ROVER_09 {
 		// int cnt=0;
 		String line = "";
 
-		int counter = 0;
-		
 		boolean goingSouth = false;
-		boolean goingEast = false;
-		
 		boolean stuck = false; // just means it did not change locations between requests,
 								// could be velocity limit or obstruction etc.
 		boolean blocked = false;
@@ -96,7 +94,6 @@ public class ROVER_09 {
 		String currentDir = cardinals[0];
 		Coord currentLoc = null;
 		Coord previousLoc = null;
-		
 
 		// start Rover controller process
 		while (true) {
@@ -140,85 +137,86 @@ public class ROVER_09 {
 			
 
 			
-			// MOVING
-
+			// ***** MOVING *****
 			// try moving east 5 block if blocked
 			if (blocked) {
 				for (int i = 0; i < 5; i++) {
-					out.println("MOVE S");
-					//System.out.println("ROVER_00 request move E");
-					Thread.sleep(1100);
+					out.println("MOVE E");
+					//System.out.println("ROVER_09 request move E");
+					Thread.sleep(300);
 				}
 				blocked = false;
-					//reverses direction after being blocked
-					goingEast = !goingEast;
-				
+				//reverses direction after being blocked
+				goingSouth = !goingSouth;
 			} else {
-
 
 				// pull the MapTile array out of the ScanMap object
 				MapTile[][] scanMapTiles = scanMap.getScanMap();
 				int centerIndex = (scanMap.getEdgeSize() - 1)/2;
 				// tile S = y + 1; N = y - 1; E = x + 1; W = x - 1
 
-				if (goingEast) {
+				if (goingSouth) {
 					// check scanMap to see if path is blocked to the south
 					// (scanMap may be old data by now)
 					if (scanMapTiles[centerIndex][centerIndex +1].getHasRover() 
-							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.ROCK
-							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.NONE) {
+							|| scanMapTiles[centerIndex][centerIndex +1].getTerrain() == Terrain.ROCK
+							|| scanMapTiles[centerIndex][centerIndex +1].getTerrain() == Terrain.NONE) {
 						blocked = true;
 					} else {
 						// request to server to move
-						out.println("MOVE E");
-						System.out.println("ROVER_09 request move E");
+						out.println("MOVE S");
+						//System.out.println("ROVER_09 request move S");
 					}
 					
 				} else {
 					// check scanMap to see if path is blocked to the north
 					// (scanMap may be old data by now)
-					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
-					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
+					//System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
+					//System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
 					
 					if (scanMapTiles[centerIndex][centerIndex -1].getHasRover() 
-							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.ROCK
-							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.NONE) {
+							|| scanMapTiles[centerIndex][centerIndex -1].getTerrain() == Terrain.ROCK
+							|| scanMapTiles[centerIndex][centerIndex -1].getTerrain() == Terrain.NONE) {
 						blocked = true;
 					} else {
 						// request to server to move
-						out.println("MOVE W");
-						System.out.println("ROVER_09 request move W");
-					}
-					
+						out.println("MOVE N");
+						//System.out.println("ROVER_09 request move N");
+					}					
 				}
-
 			}
 
 			// another call for current location
 			out.println("LOC");
 			line = in.readLine();
+			if(line == null){
+				System.out.println("ROVER_09 check connection to server");
+				line = "";
+			}
 			if (line.startsWith("LOC")) {
 				currentLoc = extractLOC(line);
 			}
 
-			System.out.println("ROVER_09 currentLoc after recheck: " + currentLoc);
-			System.out.println("ROVER_09 previousLoc: " + previousLoc);
+			//System.out.println("ROVER_09 currentLoc after recheck: " + currentLoc);
+			//System.out.println("ROVER_09 previousLoc: " + previousLoc);
 
 			// test for stuckness
 			stuck = currentLoc.equals(previousLoc);
 
-			System.out.println("ROVER_09 stuck test " + stuck);
+			//System.out.println("ROVER_09 stuck test " + stuck);
 			System.out.println("ROVER_09 blocked test " + blocked);
 
+			// TODO - logic to calculate where to move next
+
+			
 			
 			Thread.sleep(sleepTime);
 			
 			System.out.println("ROVER_09 ------------ bottom process control --------------"); 
-
 		}
 
 	}
-
+	
 	// ################ Support Methods ###########################
 	
 	private void clearReadLineBuffer() throws IOException{
