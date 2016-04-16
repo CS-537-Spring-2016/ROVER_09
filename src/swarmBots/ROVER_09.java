@@ -228,7 +228,7 @@ public class ROVER_09 {
 		}
 	}
 	
-
+	//this is a test
 	// method to retrieve a list of the rover's equipment from the server
 	private ArrayList<String> getEquipment() throws IOException {
 		//System.out.println("ROVER_99 method getEquipment()");
