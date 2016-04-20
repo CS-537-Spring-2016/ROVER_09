@@ -158,6 +158,8 @@ public class ROVER_09 {
 
 				// pull the MapTile array out of the ScanMap object
 				MapTile[][] scanMapTiles = scanMap.getScanMap();
+				
+				//why it checks the center??
 				int centerIndex = (scanMap.getEdgeSize() - 1)/2;
 				// tile S = y + 1; N = y - 1; E = x + 1; W = x - 1
 
@@ -165,7 +167,7 @@ public class ROVER_09 {
 					// check scanMap to see if path is blocked to the south
 					// (scanMap may be old data by now)
 					if (scanMapTiles[centerIndex][centerIndex +1].getHasRover() 
-							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.ROCK
+							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.SAND
 							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.NONE) {
 						blocked = true;
 					} else {
@@ -177,11 +179,13 @@ public class ROVER_09 {
 				} else {
 					// check scanMap to see if path is blocked to the north
 					// (scanMap may be old data by now)
+					
 					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
 					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
 					
 					if (scanMapTiles[centerIndex][centerIndex -1].getHasRover() 
-							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.ROCK
+							//I changed ROCK to SAND for this robot to avoid stuck in sand
+							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.SAND
 							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.NONE) {
 						blocked = true;
 					} else {
