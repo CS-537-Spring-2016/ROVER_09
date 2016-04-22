@@ -31,12 +31,16 @@ public class RoverLocations {
 //		roverHash.put(RoverName.ROVER_17, new Coord(17,1));
 //		roverHash.put(RoverName.ROVER_18, new Coord(18,1));
 //		roverHash.put(RoverName.ROVER_19, new Coord(19,1));
-//		roverHash.put(RoverName.ROVER_20, new Coord(20,1));
+//		roverHash.put(RoverName.ROVER_20, new Coord(22,1));
+//		roverHash.put(RoverName.ROVER_20, new Coord(23,1));
+//		roverHash.put(RoverName.ROVER_20, new Coord(24,1));
+//		roverHash.put(RoverName.ROVER_20, new Coord(25,1));
 		
 		// test rovers
 		roverHash.put(RoverName.ROVER_00, new Coord(4,20));
 		roverHash.put(RoverName.ROVER_99, new Coord(4,7));
 		// location for ROVER09
+		//New location set for the rover
 		roverHash.put(RoverName.ROVER_09, new Coord(9,1));
 
 	}
