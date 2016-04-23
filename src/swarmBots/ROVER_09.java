@@ -21,7 +21,8 @@ import enums.Terrain;
  * http://cs.lmu.edu/~ray/notes/javanetexamples/ Many thanks to the authors for
  * publishing their code examples
  */
-
+//Creating the new Rover for the group
+//for the group 09
 public class ROVER_09 {
 
 	BufferedReader in;
@@ -105,7 +106,7 @@ public class ROVER_09 {
 			// simulated resource cost
 			
 			
-			// **** location call ****
+			// **** calling the Location ****
 			out.println("LOC");
 			line = in.readLine();
             if (line == null) {
@@ -135,8 +136,13 @@ public class ROVER_09 {
 			
 	
 
+<<<<<<< HEAD
+			// ***** Does a Scan *****
+			//System.out.println("ROVER_09 sending SCAN request");
+=======
 			// ***** do a SCAN *****
 			//System.out.println("ROVER_99 sending SCAN request");
+>>>>>>> origin/master
 			this.doScan();
 			scanMap.debugPrintMap();
 			
@@ -144,8 +150,12 @@ public class ROVER_09 {
 			
 
 			
+<<<<<<< HEAD
+			// ***** Procedure of the MOVING *****
+=======
 			// MOVING
 
+>>>>>>> origin/master
 			// try moving east 5 block if blocked
 			if (blocked) {
 //				for (int i = 0; i < 5; i++) {
