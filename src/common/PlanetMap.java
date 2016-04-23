@@ -28,6 +28,7 @@ public class PlanetMap {
 				this.planetMap[i][j] = new MapTile();
 			}
 		}
+<<<<<<< HEAD
 		this.startPosCoord = new Coord(0, 0);
 		this.targetPosCoord = new Coord(0, 0);
 	}
@@ -43,6 +44,42 @@ public class PlanetMap {
 		}
 		this.startPosCoord = startPos;
 		this.targetPosCoord = targetPos;
+=======
+		// temporary use for creating planet terrain for testing
+		this.planetMap[7][7] = new MapTile("R"); 
+		this.planetMap[7][8] = new MapTile("R"); 
+		this.planetMap[8][7] = new MapTile("R"); 
+		this.planetMap[8][8] = new MapTile("R");
+		this.planetMap[5][10] = new MapTile("R");
+		
+		this.planetMap[15][16] = new MapTile("R"); 
+		this.planetMap[15][17] = new MapTile("R"); 
+		this.planetMap[15][18] = new MapTile("R"); 
+		this.planetMap[15][19] = new MapTile("R"); 
+		this.planetMap[14][18] = new MapTile("R"); 
+		this.planetMap[14][19] = new MapTile("R"); 
+		this.planetMap[14][20] = new MapTile("R"); 
+		this.planetMap[14][21] = new MapTile("R"); 
+		
+		this.planetMap[6][23] = new MapTile("R");
+		this.planetMap[7][23] = new MapTile("R");
+		this.planetMap[7][23] = new MapTile("R");
+		this.planetMap[8][24] = new MapTile("R");
+		this.planetMap[8][25] = new MapTile("R");
+		
+		this.planetMap[2][10] = new MapTile("S");
+		this.planetMap[24][10] = new MapTile("S");
+		this.planetMap[24][11] = new MapTile("S");
+		this.planetMap[24][12] = new MapTile("S");
+		this.planetMap[25][10] = new MapTile("S");
+		this.planetMap[25][11] = new MapTile("S");
+		this.planetMap[25][12] = new MapTile("S");
+		this.planetMap[25][13] = new MapTile("S");
+		this.planetMap[26][10] = new MapTile("S");
+		this.planetMap[26][11] = new MapTile("S");
+		this.planetMap[26][12] = new MapTile("S");
+		this.planetMap[26][13] = new MapTile("S");
+>>>>>>> refs/remotes/origin/lishenyu_branch
 	}
 	
 	public PlanetMap(String filename){
