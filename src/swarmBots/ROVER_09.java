@@ -144,11 +144,12 @@ public class ROVER_09 {
 
 			// try moving east 5 block if blocked
 			if (blocked) {
-				for (int i = 0; i < 5; i++) {
-					out.println("MOVE S");
-					//System.out.println("ROVER_00 request move E");
-					Thread.sleep(1100);
-				}
+//				for (int i = 0; i < 5; i++) {
+//					out.println("MOVE S");
+//					//System.out.println("ROVER_00 request move E");
+//					Thread.sleep(1100);
+//				}
+				out.println("MOVE S");
 				blocked = false;
 					//reverses direction after being blocked
 					goingEast = !goingEast;
