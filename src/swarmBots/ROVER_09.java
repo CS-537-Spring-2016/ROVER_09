@@ -127,35 +127,27 @@ public class ROVER_09 {
 			// **** get equipment listing ****			
 			ArrayList<String> equipment = new ArrayList<String>();
 			equipment = getEquipment();
-<<<<<<< HEAD
+
 			//System.out.println("ROVER_09 equipment list results drive " + equipment.get(0));
-=======
+
 			//System.out.println("ROVER_99 equipment list results drive " + equipment.get(0));
->>>>>>> refs/remotes/origin/lishenyu_branch
+
 			System.out.println("ROVER_09 equipment list results " + equipment + "\n");
 			
-	
-
-<<<<<<< HEAD
 			// ***** Does a Scan *****
 			//System.out.println("ROVER_09 sending SCAN request");
-=======
+
 			// ***** do a SCAN *****
 			//System.out.println("ROVER_99 sending SCAN request");
->>>>>>> origin/master
 			this.doScan();
 			scanMap.debugPrintMap();
 			
 			
-			
 
-			
-<<<<<<< HEAD
 			// ***** Procedure of the MOVING *****
-=======
+
 			// MOVING
 
->>>>>>> origin/master
 			// try moving east 5 block if blocked
 			if (blocked) {
 				for (int i = 0; i < 5; i++) {
@@ -186,26 +178,26 @@ public class ROVER_09 {
 						blocked = true;
 					} else {
 						// request to server to move
-<<<<<<< HEAD
+
 						out.println("MOVE S");
 						//System.out.println("ROVER_09 request move S");
-=======
+
 						out.println("MOVE E");
 						System.out.println("ROVER_09 request move E");
->>>>>>> refs/remotes/origin/lishenyu_branch
+
 					}
 					
 				} else {
 					// check scanMap to see if path is blocked to the north
 					// (scanMap may be old data by now)
-<<<<<<< HEAD
+
 					//System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
 					//System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
-=======
+
 					
 					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
 					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
->>>>>>> refs/remotes/origin/lishenyu_branch
+
 					
 					if (scanMapTiles[centerIndex][centerIndex -1].getHasRover() 
 							//I changed ROCK to SAND for this robot to avoid stuck in sand
@@ -214,16 +206,15 @@ public class ROVER_09 {
 						blocked = true;
 					} else {
 						// request to server to move
-<<<<<<< HEAD
+
 						out.println("MOVE N");
 						//System.out.println("ROVER_09 request move N");
 					}					
-=======
+
 						out.println("MOVE W");
 						System.out.println("ROVER_09 request move W");
 					}
 					
->>>>>>> refs/remotes/origin/lishenyu_branch
 				}
 
 			}
@@ -235,32 +226,27 @@ public class ROVER_09 {
 				currentLoc = extractLOC(line);
 			}
 
-<<<<<<< HEAD
 			//System.out.println("ROVER_09 currentLoc after recheck: " + currentLoc);
 			//System.out.println("ROVER_09 previousLoc: " + previousLoc);
-=======
+
 			System.out.println("ROVER_09 currentLoc after recheck: " + currentLoc);
 			System.out.println("ROVER_09 previousLoc: " + previousLoc);
->>>>>>> refs/remotes/origin/lishenyu_branch
 
 			// test for stuckness
 			stuck = currentLoc.equals(previousLoc);
 
-<<<<<<< HEAD
+
 			//System.out.println("ROVER_09 stuck test " + stuck);
-=======
+
 			System.out.println("ROVER_09 stuck test " + stuck);
->>>>>>> refs/remotes/origin/lishenyu_branch
+
 			System.out.println("ROVER_09 blocked test " + blocked);
 
 			
 			Thread.sleep(sleepTime);
 			
 			System.out.println("ROVER_09 ------------ bottom process control --------------"); 
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/remotes/origin/lishenyu_branch
 		}
 
 	}
