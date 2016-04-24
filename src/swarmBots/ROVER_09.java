@@ -149,14 +149,15 @@ public class ROVER_09 {
 
 			// try moving east 5 block if blocked
 			if (blocked) {
-				for (int i = 0; i < 5; i++) {
-					out.println("MOVE S");
-					//System.out.println("ROVER_00 request move E");
-					Thread.sleep(1100);
-				}
+//				for (int i = 0; i < 5; i++) {
+//					out.println("MOVE S");
+//					//System.out.println("ROVER_00 request move E");
+//					Thread.sleep(1100);
+//				}
+				out.println("MOVE S");
 				blocked = false;
 					//reverses direction after being blocked
-					goingEast = !goingEast;
+				goingEast = !goingEast;
 				
 			} else {
 
@@ -169,8 +170,8 @@ public class ROVER_09 {
 				if (goingEast) {
 					// check scanMap to see if path is blocked to the south
 					// (scanMap may be old data by now)
-					if (scanMapTiles[centerIndex][centerIndex +1].getHasRover() 
-							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.ROCK
+					if (scanMapTiles[centerIndex+1][centerIndex].getHasRover() 
+							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.SAND
 							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.NONE) {
 						blocked = true;
 					} else {
@@ -185,8 +186,8 @@ public class ROVER_09 {
 					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
 					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
 					
-					if (scanMapTiles[centerIndex][centerIndex -1].getHasRover() 
-							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.ROCK
+					if (scanMapTiles[centerIndex-1][centerIndex].getHasRover() 
+							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.SAND
 							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.NONE) {
 						blocked = true;
 					} else {
