@@ -16,13 +16,17 @@ import common.MapTile;
 import common.ScanMap;
 import enums.Terrain;
 
+
+//Making an addition to this file to check whether a remote alternat push will change it
+
+// rearanged the 2nd and 3rd line in the following comment
+
 /**
  * The seed that this program is built on is a chat program example found here:
- * http://cs.lmu.edu/~ray/notes/javanetexamples/ Many thanks to the authors for
  * publishing their code examples
+ * * http://cs.lmu.edu/~ray/notes/javanetexamples/ Many thanks to the authors for
  */
-//Creating the new Rover for the group
-//for the group 09
+
 public class ROVER_09 {
 
 	BufferedReader in;
@@ -106,7 +110,7 @@ public class ROVER_09 {
 			// simulated resource cost
 			
 			
-			// **** calling the Location ****
+			// **** location call ****
 			out.println("LOC");
 			line = in.readLine();
             if (line == null) {
@@ -127,90 +131,67 @@ public class ROVER_09 {
 			// **** get equipment listing ****			
 			ArrayList<String> equipment = new ArrayList<String>();
 			equipment = getEquipment();
-
 			//System.out.println("ROVER_09 equipment list results drive " + equipment.get(0));
-
-			//System.out.println("ROVER_99 equipment list results drive " + equipment.get(0));
-
 			System.out.println("ROVER_09 equipment list results " + equipment + "\n");
 			
-			// ***** Does a Scan *****
-			//System.out.println("ROVER_09 sending SCAN request");
+	
 
 			// ***** do a SCAN *****
-			//System.out.println("ROVER_99 sending SCAN request");
+			//System.out.println("ROVER_09 sending SCAN request");
 			this.doScan();
 			scanMap.debugPrintMap();
 			
 			
+			
 
-			// ***** Procedure of the MOVING *****
-
+			
 			// MOVING
 
 			// try moving east 5 block if blocked
 			if (blocked) {
-				for (int i = 0; i < 5; i++) {
-					out.println("MOVE S");
-					//System.out.println("ROVER_00 request move E");
-					Thread.sleep(1100);
-				}
+//				for (int i = 0; i < 5; i++) {
+//					out.println("MOVE S");
+//					//System.out.println("ROVER_00 request move E");
+//					Thread.sleep(1100);
+//				}
+				out.println("MOVE S");
 				blocked = false;
 					//reverses direction after being blocked
-					goingEast = !goingEast;
+				goingEast = !goingEast;
 				
 			} else {
 
 
 				// pull the MapTile array out of the ScanMap object
 				MapTile[][] scanMapTiles = scanMap.getScanMap();
-				
-				//why it checks the center??
 				int centerIndex = (scanMap.getEdgeSize() - 1)/2;
 				// tile S = y + 1; N = y - 1; E = x + 1; W = x - 1
 
 				if (goingEast) {
 					// check scanMap to see if path is blocked to the south
 					// (scanMap may be old data by now)
-					if (scanMapTiles[centerIndex][centerIndex +1].getHasRover() 
+					if (scanMapTiles[centerIndex+1][centerIndex].getHasRover() 
 							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.SAND
 							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.NONE) {
 						blocked = true;
 					} else {
 						// request to server to move
-
-						out.println("MOVE S");
-						//System.out.println("ROVER_09 request move S");
-
 						out.println("MOVE E");
 						System.out.println("ROVER_09 request move E");
-
 					}
 					
 				} else {
 					// check scanMap to see if path is blocked to the north
 					// (scanMap may be old data by now)
-
-					//System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
-					//System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
-
-					
 					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
 					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
-
 					
-					if (scanMapTiles[centerIndex][centerIndex -1].getHasRover() 
-							//I changed ROCK to SAND for this robot to avoid stuck in sand
+					if (scanMapTiles[centerIndex-1][centerIndex].getHasRover() 
 							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.SAND
 							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.NONE) {
 						blocked = true;
 					} else {
 						// request to server to move
-
-						out.println("MOVE N");
-						//System.out.println("ROVER_09 request move N");
-					}					
-
 						out.println("MOVE W");
 						System.out.println("ROVER_09 request move W");
 					}
@@ -226,20 +207,13 @@ public class ROVER_09 {
 				currentLoc = extractLOC(line);
 			}
 
-			//System.out.println("ROVER_09 currentLoc after recheck: " + currentLoc);
-			//System.out.println("ROVER_09 previousLoc: " + previousLoc);
-
 			System.out.println("ROVER_09 currentLoc after recheck: " + currentLoc);
 			System.out.println("ROVER_09 previousLoc: " + previousLoc);
 
 			// test for stuckness
 			stuck = currentLoc.equals(previousLoc);
 
-
-			//System.out.println("ROVER_09 stuck test " + stuck);
-
 			System.out.println("ROVER_09 stuck test " + stuck);
-
 			System.out.println("ROVER_09 blocked test " + blocked);
 
 			
@@ -255,7 +229,7 @@ public class ROVER_09 {
 	
 	private void clearReadLineBuffer() throws IOException{
 		while(in.ready()){
-			//System.out.println("ROVER_99 clearing readLine()");
+			//System.out.println("ROVER_09 clearing readLine()");
 			String garbage = in.readLine();	
 		}
 	}
@@ -263,7 +237,7 @@ public class ROVER_09 {
 
 	// method to retrieve a list of the rover's equipment from the server
 	private ArrayList<String> getEquipment() throws IOException {
-		//System.out.println("ROVER_99 method getEquipment()");
+		//System.out.println("ROVER_09 method getEquipment()");
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		out.println("EQUIPMENT");
 		
@@ -272,17 +246,17 @@ public class ROVER_09 {
 			jsonEqListIn = "";
 		}
 		StringBuilder jsonEqList = new StringBuilder();
-		//System.out.println("ROVER_99 incomming EQUIPMENT result - first readline: " + jsonEqListIn);
+		//System.out.println("ROVER_09 incomming EQUIPMENT result - first readline: " + jsonEqListIn);
 		
 		if(jsonEqListIn.startsWith("EQUIPMENT")){
 			while (!(jsonEqListIn = in.readLine()).equals("EQUIPMENT_END")) {
 				if(jsonEqListIn == null){
 					break;
 				}
-				//System.out.println("ROVER_99 incomming EQUIPMENT result: " + jsonEqListIn);
+				//System.out.println("ROVER_09 incomming EQUIPMENT result: " + jsonEqListIn);
 				jsonEqList.append(jsonEqListIn);
 				jsonEqList.append("\n");
-				//System.out.println("ROVER_99 doScan() bottom of while");
+				//System.out.println("ROVER_09 doScan() bottom of while");
 			}
 		} else {
 			// in case the server call gives unexpected results
@@ -293,7 +267,7 @@ public class ROVER_09 {
 		String jsonEqListString = jsonEqList.toString();		
 		ArrayList<String> returnList;		
 		returnList = gson.fromJson(jsonEqListString, new TypeToken<ArrayList<String>>(){}.getType());		
-		//System.out.println("ROVER_99 returnList " + returnList);
+		//System.out.println("ROVER_09 returnList " + returnList);
 		
 		return returnList;
 	}
@@ -301,7 +275,7 @@ public class ROVER_09 {
 
 	// sends a SCAN request to the server and puts the result in the scanMap array
 	public void doScan() throws IOException {
-		//System.out.println("ROVER_99 method doScan()");
+		//System.out.println("ROVER_09 method doScan()");
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		out.println("SCAN");
 
@@ -315,23 +289,23 @@ public class ROVER_09 {
 		
 		if(jsonScanMapIn.startsWith("SCAN")){	
 			while (!(jsonScanMapIn = in.readLine()).equals("SCAN_END")) {
-				//System.out.println("ROVER_99 incomming SCAN result: " + jsonScanMapIn);
+				//System.out.println("ROVER_09 incomming SCAN result: " + jsonScanMapIn);
 				jsonScanMap.append(jsonScanMapIn);
 				jsonScanMap.append("\n");
-				//System.out.println("ROVER_99 doScan() bottom of while");
+				//System.out.println("ROVER_09 doScan() bottom of while");
 			}
 		} else {
 			// in case the server call gives unexpected results
 			clearReadLineBuffer();
 			return; // server response did not start with "SCAN"
 		}
-		//System.out.println("ROVER_99 finished scan while");
+		//System.out.println("ROVER_09 finished scan while");
 
 		String jsonScanMapString = jsonScanMap.toString();
 		// debug print json object to a file
 		//new MyWriter( jsonScanMapString, 0);  //gives a strange result - prints the \n instead of newline character in the file
 
-		//System.out.println("ROVER_99 convert from json back to ScanMap class");
+		//System.out.println("ROVER_09 convert from json back to ScanMap class");
 		// convert from the json string back to a ScanMap object
 		scanMap = gson.fromJson(jsonScanMapString, ScanMap.class);		
 	}
