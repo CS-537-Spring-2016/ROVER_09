@@ -28,7 +28,6 @@ public class PlanetMap {
 				this.planetMap[i][j] = new MapTile();
 			}
 		}
-<<<<<<< HEAD
 		this.startPosCoord = new Coord(0, 0);
 		this.targetPosCoord = new Coord(0, 0);
 	}
@@ -44,7 +43,7 @@ public class PlanetMap {
 		}
 		this.startPosCoord = startPos;
 		this.targetPosCoord = targetPos;
-=======
+
 		// temporary use for creating planet terrain for testing
 		this.planetMap[7][7] = new MapTile("R"); 
 		this.planetMap[7][8] = new MapTile("R"); 
@@ -79,7 +78,7 @@ public class PlanetMap {
 		this.planetMap[26][11] = new MapTile("S");
 		this.planetMap[26][12] = new MapTile("S");
 		this.planetMap[26][13] = new MapTile("S");
->>>>>>> refs/remotes/origin/lishenyu_branch
+
 	}
 	
 	public PlanetMap(String filename){
