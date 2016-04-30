@@ -1,0 +1,4 @@
+4/20
+So far our robot will not get stuck in sand ,just like avoid the wall. And robot can climb 
+over rock. 
+But,when robot meets wall or sand, it changes two lines .
