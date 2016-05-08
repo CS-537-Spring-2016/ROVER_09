@@ -361,6 +361,9 @@ public class SwarmServer {
 	                    			corpCollectedScience.get(getCorpNumber(rover)).add(foundScience);
 	                    			System.out.println("SwarmServer: corp " + getCorpNumber(rover) + " total science = " + corpCollectedScience.get(getCorpNumber(rover)).size());
 	                    		}
+	                    		else{
+	                    			System.out.println("not satisfied !!!!!!!!!!!!!");
+	                    		}
 	                    		
 	                    		if((rover.getTool_1() == RoverToolType.EXCAVATOR || (rover.getTool_2() == RoverToolType.EXCAVATOR) 
 	                    				 && (planetMap.getTile(roverPos).getTerrain() == Terrain.SOIL || planetMap.getTile(roverPos).getTerrain() == Terrain.SAND))){
@@ -369,6 +372,9 @@ public class SwarmServer {
 	                    			rover.scienceCargo.add(foundScience);
 	                    			corpCollectedScience.get(getCorpNumber(rover)).add(foundScience);
 	                    			System.out.println("SwarmServer: corp " + getCorpNumber(rover) + " total science = " + corpCollectedScience.get(getCorpNumber(rover)).size());
+	                    		}
+	                    		else{
+	                    			System.out.println("not satisfied !!!!!!!!!!!!!");
 	                    		}
 	                    	}
 	                    	scoreDisplayUpdate();

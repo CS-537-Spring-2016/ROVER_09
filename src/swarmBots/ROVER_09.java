@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import common.Coord;
 import common.MapTile;
 import common.ScanMap;
+import enums.Science;
 import enums.Terrain;
 
 
@@ -36,6 +40,11 @@ public class ROVER_09 {
 	int sleepTime;
 	String SERVER_ADDRESS = "localhost";
 	static final int PORT_ADDRESS = 9537;
+	int currentDirection = 1;//move east at first
+	
+    Coord cc = null;
+    HashSet<Coord> science_collection = new HashSet<Coord>();
+    HashSet<Coord> displayed_science = new HashSet<Coord>();
 
 	public ROVER_09() {
 		// constructor
@@ -142,64 +151,102 @@ public class ROVER_09 {
 			scanMap.debugPrintMap();
 			
 			
-			
+			MapTile[][] scanMapTiles = scanMap.getScanMap();
+			int centerIndex = (scanMap.getEdgeSize() - 1)/2;
+        	MapTile tile = scanMapTiles[centerIndex][centerIndex];
+            Science science = tile.getScience();
+        	if(science.equals(Science.ORGANIC)){
+    			System.out.println("ROVER_09 is requesting GATHER organic!");
+    			out.println("GATHER");
+        	}
+        	Thread.sleep(200);
+        	int m,n=0;
+        	if((scanMapTiles[centerIndex-1][centerIndex].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex-1][centerIndex].getTerrain()==Terrain.ROCK)
+        			||(scanMapTiles[centerIndex-2][centerIndex].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex-2][centerIndex].getTerrain()==Terrain.ROCK&&
+        			!isBlocked(scanMapTiles[centerIndex-1][centerIndex]))){
+				currentDirection = 3;
+				basicMove(currentDirection, scanMapTiles, centerIndex);
+        	}
+        	if((scanMapTiles[centerIndex+1][centerIndex].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex+1][centerIndex].getTerrain()==Terrain.ROCK)
+        			||(scanMapTiles[centerIndex+2][centerIndex].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex+2][centerIndex].getTerrain()==Terrain.ROCK&&
+        			!isBlocked(scanMapTiles[centerIndex+1][centerIndex]))){
+				currentDirection = 1;
+				basicMove(currentDirection, scanMapTiles, centerIndex);
+        	}
+        	if((scanMapTiles[centerIndex][centerIndex-1].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex][centerIndex-1].getTerrain()==Terrain.ROCK)
+        			||(scanMapTiles[centerIndex][centerIndex-2].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex][centerIndex-2].getTerrain()==Terrain.ROCK&&
+        			!isBlocked(scanMapTiles[centerIndex][centerIndex-1]))){
+				currentDirection = 4;
+				basicMove(currentDirection, scanMapTiles, centerIndex);
+        	}
+        	if((scanMapTiles[centerIndex][centerIndex+1].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex][centerIndex+1].getTerrain()==Terrain.ROCK)
+        			||(scanMapTiles[centerIndex][centerIndex+2].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex][centerIndex+2].getTerrain()==Terrain.ROCK&&
+        			!isBlocked(scanMapTiles[centerIndex][centerIndex+1]))){
+				currentDirection = 2;
+				basicMove(currentDirection, scanMapTiles, centerIndex);
+        	}
+        	
+            basicMove(currentDirection, scanMapTiles, centerIndex);
+            
 
+    		//System.out.println("It's moving to : " + currentDirection);
+            //shareScience();
 			
 			// MOVING
 
 			// try moving east 5 block if blocked
-			if (blocked) {
-				for (int i = 0; i < 5; i++) {
-					out.println("MOVE S");
-				//System.out.println("ROVER_00 request move E");
-					Thread.sleep(1100);
-				}
-				out.println("MOVE N");
-				blocked = false;
-					//reverses direction after being blocked
-				goingEast = !goingEast;
-				//goingSouth
-				
-			} else {
-
-
-				// pull the MapTile array out of the ScanMap object
-				MapTile[][] scanMapTiles = scanMap.getScanMap();
-				int centerIndex = (scanMap.getEdgeSize() - 1)/2;
-				// tile S = y + 1; N = y - 1; E = x + 1; W = x - 1
-
-				if (goingEast) {
-					// check scanMap to see if path is blocked to the south
-					// (scanMap may be old data by now)
-					if (scanMapTiles[centerIndex+1][centerIndex].getHasRover() 
-							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.SAND
-							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.NONE) {
-						blocked = true;
-					} else {
-						// request to server to move
-						out.println("MOVE E");
-						System.out.println("ROVER_09 request move E");
-					}
-					
-				} else {
-					// check scanMap to see if path is blocked to the north
-					// (scanMap may be old data by now)
-					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
-					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
-					
-					if (scanMapTiles[centerIndex-1][centerIndex].getHasRover() 
-							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.SAND
-							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.NONE) {
-						blocked = true;
-					} else {
-						// request to server to move
-						out.println("MOVE W");
-						System.out.println("ROVER_09 request move W");
-					}
-					
-				}
-
-			}
+//			if (blocked) {
+//				for (int i = 0; i < 5; i++) {
+//					out.println("MOVE S");
+//				//System.out.println("ROVER_00 request move E");
+//					Thread.sleep(300);
+//				}
+//				out.println("MOVE N");
+//				blocked = false;
+//					//reverses direction after being blocked
+//				goingEast = !goingEast;
+//				//goingSouth
+//				
+//			} else {
+//
+//
+//				// pull the MapTile array out of the ScanMap object
+//				MapTile[][] scanMapTiles = scanMap.getScanMap();
+//				int centerIndex = (scanMap.getEdgeSize() - 1)/2;
+//				// tile S = y + 1; N = y - 1; E = x + 1; W = x - 1
+//
+//				if (goingEast) {
+//					// check scanMap to see if path is blocked to the south
+//					// (scanMap may be old data by now)
+//					if (scanMapTiles[centerIndex+1][centerIndex].getHasRover() 
+//							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.SAND
+//							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.NONE) {
+//						blocked = true;
+//					} else {
+//						// request to server to move
+//						out.println("MOVE E");
+//						System.out.println("ROVER_09 request move E");
+//					}
+//					
+//				} else {
+//					// check scanMap to see if path is blocked to the north
+//					// (scanMap may be old data by now)
+//					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
+//					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
+//					
+//					if (scanMapTiles[centerIndex-1][centerIndex].getHasRover() 
+//							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.SAND
+//							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.NONE) {
+//						blocked = true;
+//					} else {
+//						// request to server to move
+//						out.println("MOVE W");
+//						System.out.println("ROVER_09 request move W");
+//					}
+//					
+//				}
+//
+//			}
 
 			// another call for current location
 			out.println("LOC");
@@ -327,6 +374,155 @@ public class ROVER_09 {
 		return null;
 	}
 	
+    private void move(int direction) {
+    	if(direction ==1){
+          out.println("MOVE E");
+    	}
+    	else if(direction ==2){
+            out.println("MOVE S");
+      	}
+    	else if(direction ==3){
+            out.println("MOVE W");
+      	}
+    	else{
+            out.println("MOVE N");
+      	}
+    }
+    /** return a DIFFERENT direction */
+    private int changeDirection(int direction) {
+    	if(direction==1){
+    		return 2;
+    	}
+    	else if(direction==2){
+    		return 3;
+    	}
+    	else if(direction==3){
+    		return 4;
+    	}
+    	else{
+    		return 1;
+    	}
+    }
+    /**
+     * recursively call itself until it find a direction that won't lead to a
+     * blocked path
+     */
+    private int findGoodDirection(int direction,
+            MapTile[][] scanMapTiles, int centerIndex) {
+
+//        if (isNextBlock(direction, scanMapTiles, centerIndex)) {
+//        	//direction = (direction+1)%4;
+//            return findGoodDirection(changeDirection(direction), scanMapTiles,
+//                    centerIndex);
+//        } else {
+//        	direction = (direction+1)%4;
+//            return direction;
+//        }
+        if (isNextBlock((direction+1)%4, scanMapTiles, centerIndex)) {
+        	if(isNextBlock((direction+3)%4, scanMapTiles, centerIndex)){
+            	if(isNextBlock((direction+2)%4, scanMapTiles, centerIndex)){
+                	return (direction+4)%4;
+            	}
+            	else{
+            		currentDirection = (direction+2)%4;
+                	return (direction+2)%4;
+            	}
+        	}
+        	else{
+            	return (direction+3)%4;
+        	}
+        }
+        else{
+        	return (direction+1)%4;
+        }
+        
+        
+    }
+	
+    //when starts ,robot goes as this logic
+    private void basicMove(int direction, MapTile[][] scanMapTiles,
+            int centerIndex) {
+//    	MapTile tile = scanMapTiles[centerIndex][centerIndex];
+//        Science science = tile.getScience();
+//    	if(science.equals(Science.ORGANIC)){
+//			System.out.println("ROVER_09 is requesting GATHER organic!");
+//			out.println("GATHER");
+//    	}for(){
+
+        if (isNextBlock(direction, scanMapTiles, centerIndex)) {
+            int goodDirection = findGoodDirection(direction, scanMapTiles,
+                    centerIndex);
+            if (isNextEdge(direction, scanMapTiles, centerIndex)) {
+            	currentDirection = findGoodDirection(direction, scanMapTiles,
+                        centerIndex);
+                move(currentDirection);
+            } else {
+            	//currentDirection = goodDirection;
+                move(goodDirection);
+            }       	
+
+        } else {
+            move(direction);
+        }
+    }
+    /** determine if the rover is on ROCK NONE OR SAND */
+    private boolean isBlocked(MapTile tile) {
+        List<Terrain> blockers = Arrays.asList(Terrain.NONE,
+                Terrain.SAND);
+        Terrain terrain = tile.getTerrain();
+        return tile.getHasRover() || blockers.contains(terrain);
+    }
+    
+    //determine if next block can block robot:
+    public boolean isNextBlock(int direction, MapTile[][] scanMapTiles,int centerIndex) {
+    	if(direction==1){
+          return isBlocked(scanMapTiles[centerIndex + 1][centerIndex]);
+    	}
+    	else if(direction==2){
+          return isBlocked(scanMapTiles[centerIndex][centerIndex + 1]);
+    	}
+    	else if(direction==3){
+          return isBlocked(scanMapTiles[centerIndex - 1][centerIndex]);
+    	}
+    	else{
+          return isBlocked(scanMapTiles[centerIndex][centerIndex - 1]);
+    	}
+    }
+    
+    private boolean isNextEdge(int direction, MapTile[][] scanMapTiles,
+            int centerIndex) {
+    	if(direction==1){
+    		return isNone(scanMapTiles[centerIndex + 1][centerIndex]);
+    	}
+    	else if(direction==2){
+    		return isNone(scanMapTiles[centerIndex ][centerIndex+ 1]);
+    	}
+    	else if(direction==3){
+    		return isNone(scanMapTiles[centerIndex - 1][centerIndex]);
+    	}
+    	else{
+    		return isNone(scanMapTiles[centerIndex ][centerIndex-1]);
+    	}
+    }
+    
+    private boolean isNone(MapTile tile) {
+        return tile.getTerrain() == Terrain.NONE;
+    }
+    
+    private void detectCrystals(MapTile[][] scanMapTiles) {
+        for (int x = 0; x < scanMapTiles.length; x++) {
+            for (int y = 0; y < scanMapTiles[x].length; y++) {
+                MapTile mapTile = scanMapTiles[x][y];
+                if (mapTile.getScience() == Science.CRYSTAL) {
+                    int tileX = cc.xpos + (x - 5);
+                    int tileY = cc.ypos + (y - 5);
+                    System.out.println("CRYSTAL Location: [x:" + tileX
+                            + " y: " + tileY);
+                    science_collection.add(new Coord(tileX, tileY));
+                }
+            }
+        }
+    }
 	
 
 	/**
