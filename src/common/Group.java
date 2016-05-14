@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package common;
 
 /**
@@ -17,3 +18,19 @@ public class Group {
 		this.port = port;
 	}
 }
+=======
+package common;
+
+public class Group {
+
+	public String ip;
+	public int port;
+	public String group;
+
+	public Group(String group, String ip, int port) {
+		this.group = group;
+		this.ip = ip;
+		this.port = port;
+	}
+}
+>>>>>>> refs/remotes/origin/Janak
