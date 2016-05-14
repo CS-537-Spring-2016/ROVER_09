@@ -494,12 +494,12 @@ public class ROVER_09 {
 			
 	
 
-			// ***** do a SCAN *****
+			// ***** do a SCAN for the physical sciences *****
 			//System.out.println("ROVER_09 sending SCAN request");
 			this.doScan();
 			scanMap.debugPrintMap();
 			
-			// ****************** Check scan map for science and shared them
+			// ****************** Check scan map for science and shared them and contact with other rovers of the group
 <<<<<<< HEAD
             // ***********************
 
@@ -553,7 +553,7 @@ public class ROVER_09 {
             //shareScience();
 >>>>>>> refs/remotes/origin/Janak
 			
-			// MOVING
+			// MOVING the rover 
 
 			// try moving east 5 block if blocked
 //			if (blocked) {
@@ -805,7 +805,7 @@ public class ROVER_09 {
 	
 
 	// this takes the LOC response string, parses out the x and x values and
-	// returns a Coord object
+	// returns a Coordinate object
 	public static Coord extractLOC(String sStr) {
 		sStr = sStr.substring(4);
 		if (sStr.lastIndexOf(" ") != -1) {
@@ -884,7 +884,7 @@ public class ROVER_09 {
         
     }
 	
-    //when starts ,robot goes as this logic
+    //when starts ,robot goes as this logic and gets startes to gahter the physical sciences
     private void basicMove(int direction, MapTile[][] scanMapTiles,
             int centerIndex) {
 //    	MapTile tile = scanMapTiles[centerIndex][centerIndex];
@@ -953,7 +953,7 @@ public class ROVER_09 {
     private boolean isNone(MapTile tile) {
         return tile.getTerrain() == Terrain.NONE;
     }
-    
+    //this method is used to detect the physical sciences and used to gather them
     private void detectCrystals(MapTile[][] scanMapTiles) {
         for (int x = 0; x < scanMapTiles.length; x++) {
             for (int y = 0; y < scanMapTiles[x].length; y++) {
