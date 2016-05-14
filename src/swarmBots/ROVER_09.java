@@ -194,60 +194,6 @@ public class ROVER_09 {
 			
 			// MOVING
 
-			// try moving east 5 block if blocked
-//			if (blocked) {
-//				for (int i = 0; i < 5; i++) {
-//					out.println("MOVE S");
-//				//System.out.println("ROVER_00 request move E");
-//					Thread.sleep(300);
-//				}
-//				out.println("MOVE N");
-//				blocked = false;
-//					//reverses direction after being blocked
-//				goingEast = !goingEast;
-//				//goingSouth
-//				
-//			} else {
-//
-//
-//				// pull the MapTile array out of the ScanMap object
-//				MapTile[][] scanMapTiles = scanMap.getScanMap();
-//				int centerIndex = (scanMap.getEdgeSize() - 1)/2;
-//				// tile S = y + 1; N = y - 1; E = x + 1; W = x - 1
-//
-//				if (goingEast) {
-//					// check scanMap to see if path is blocked to the south
-//					// (scanMap may be old data by now)
-//					if (scanMapTiles[centerIndex+1][centerIndex].getHasRover() 
-//							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.SAND
-//							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.NONE) {
-//						blocked = true;
-//					} else {
-//						// request to server to move
-//						out.println("MOVE E");
-//						System.out.println("ROVER_09 request move E");
-//					}
-//					
-//				} else {
-//					// check scanMap to see if path is blocked to the north
-//					// (scanMap may be old data by now)
-//					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
-//					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
-//					
-//					if (scanMapTiles[centerIndex-1][centerIndex].getHasRover() 
-//							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.SAND
-//							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.NONE) {
-//						blocked = true;
-//					} else {
-//						// request to server to move
-//						out.println("MOVE W");
-//						System.out.println("ROVER_09 request move W");
-//					}
-//					
-//				}
-//
-//			}
-
 			// another call for current location
 			out.println("LOC");
 			line = in.readLine();
