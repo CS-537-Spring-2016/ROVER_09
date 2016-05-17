@@ -1,32 +1,25 @@
 package swarmBots;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import common.Coord;
-import common.Group;
 import common.MapTile;
-import common.Group;
 import common.ScanMap;
+import communication.Group;
+import communication.RoverCommunication;
+import enums.RoverDriveType;
+import enums.RoverToolType;
 import enums.Science;
 import enums.Terrain;
 
@@ -52,54 +45,12 @@ public class ROVER_09 {
 	String SERVER_ADDRESS = "localhost";
 	static final int PORT_ADDRESS = 9537;
 	
-<<<<<<< HEAD
-	// all the sockets of blue team - output
-    List<Socket> outputSockets = new ArrayList<Socket>();
+    int currentDirection = 1;// move east at first
 
-    // objects contains each rover IP, port, and name
-    List<Group> blue = new ArrayList<Group>();
-
-    // every science detected will be added in to this set
-    Set<Coord> science_discovered = new HashSet<Coord>();
-
-    // this set contains all the science the ROVERED has shared
-    // thus whatever thats in science_collection that is not in display_science
-    // are "new" and "unshared"
-    Set<Coord> displayed_science = new HashSet<Coord>();
-=======
-
-	 	// all the sockets of blue team - output
-	     List<Socket> outputSockets = new ArrayList<Socket>();
-	 
-	     // objects contains each rover IP, port, and name
-	     List<Group> blue = new ArrayList<Group>();
-	 
-	     // every science detected will be added in to this set
-	     Set<Coord> science_discovered = new HashSet<Coord>();
-	 
-	     // this set contains all the science the ROVERED has shared
-	     // thus whatever thats in science_collection that is not in display_science
-	     // are "new" and "unshared"
-	     Set<Coord> displayed_science = new HashSet<Coord>();
-	 
-	     // ROVER current location
-	     Coord roverLoc;
-	 
-	     // Your ROVER is going to listen for connection with this
-	     ServerSocket listenSocket;
-	
-	int currentDirection = 1;//move east at first
-	
     Coord cc = null;
-   // HashSet<Coord> science_collection = new HashSet<Coord>();
-  //  HashSet<Coord> displayed_science = new HashSet<Coord>();
->>>>>>> refs/remotes/origin/Janak
-
-    // ROVER current location
-    Coord roverLoc;
-
-    // Your ROVER is going to listen for connection with this
-    ServerSocket listenSocket;
+    
+    /* Communication Module*/
+    RoverCommunication rocom;
     
 	public ROVER_09() {
 		// constructor
@@ -118,251 +69,6 @@ public class ROVER_09 {
 		sleepTime = 200; // in milliseconds - smaller is faster, but the server will cut connection if it is too small
 	}
 	
-	/**
-     * Try to connect each socket on a separate thread. Will try until it works.
-     * When socket is created, save it to a LIST
-     * 
-     * @author Shay
-     *
-     */
-    class RoverComm implements Runnable {
-
-        String ip;
-        int port;
-        Socket socket;
-
-        public RoverComm(String ip, int port) {
-            this.ip = ip;
-            this.port = port;
-        }
-
-        @Override
-        public void run() {
-            do {
-                try {
-                    socket = new Socket(ip, port);
-                } catch (UnknownHostException e) {
-
-                } catch (IOException e) {
-
-                }
-            } while (socket == null);
-            
-            outputSockets.add(socket);
-            System.out.println(socket.getPort() + " " + socket.getInetAddress());
-        }
-
-    }
-    
-    /**
-     * add all the group's rover into a LIST
-     */
-    public void initConnection() {
-        // dummy value # 1
-        blue.add(new Group("Dummy Group #1", "localhost", 53799));
-
-        // blue rooster
-        blue.add(new Group("GROUP_01", "localhost", 53701));
-        blue.add(new Group("GROUP_02", "localhost", 53702));
-        blue.add(new Group("GROUP_03", "localhost", 53703));
-        blue.add(new Group("GROUP_04", "localhost", 53704));
-        blue.add(new Group("GROUP_05", "localhost", 53705));
-        blue.add(new Group("GROUP_06", "localhost", 53706));
-        blue.add(new Group("GROUP_07", "localhost", 53707));
-        blue.add(new Group("GROUP_08", "localhost", 53708));
-    }
-    
-    /**
-     * Create and start a thread for each ROVER connected to you.
-     * 
-     * @throws IOException
-     * @author Shay
-     */
-    private void startServer() throws IOException {
-
-        // create a thread that waits for client to connect to 
-        new Thread(() -> {
-            while (true) {
-                try {
-                    // wait for a connection
-                    Socket connectionSocket = listenSocket.accept();
-
-                    // once there is a connection, serve them on thread
-                    new Thread(new RoverHandler(connectionSocket)).start();
-                    
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-    
-    /**
-     * When any ROVER discovered science, it will write a message to your all ROVERS.
-     * That message will be "sent" here. This block of code will read whatever
-     * written to you. Your job is to use the data to tell your rover to go pick
-     * up that science.
-     * 
-     * @author Shay
-     *
-     */
-    class RoverHandler implements Runnable {
-        Socket roverSocket;
-
-        public RoverHandler(Socket socket) {
-            this.roverSocket = socket;
-        }
-
-        @Override
-        public void run() {
-
-            try {
-                BufferedReader input = new BufferedReader(new InputStreamReader(roverSocket.getInputStream()));
-
-                while (true) {
-
-                    String line = input.readLine();
-                    // protocol: ROCK CRYSTAL 25 30
-                    System.out.println("NEW MESSAGE: " + line);
-        
-                    /*
-                     * IMPLEMENT YOUR CODE HERE
-                     * WHAT DO YOU WANT TO DO WITH THE DATA?
-                     */
-                }
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-
-	 	/**
-	      * Try to connect each socket on a separate thread. Will try until it works.
-	      * When socket is created, save it to a LIST
-	      * 
-	      * @author  
-	      *
-	      */
-	     class RoverComm implements Runnable {
-	 
-	         String ip;
-	         int port;
-	         Socket socket;
-	 
-	         public RoverComm(String ip, int port) {
-	             this.ip = ip;
-	             this.port = port;
-	         }
-	 
-	         @Override
-	         public void run() {
-	             do {
-	                 try {
-	                     socket = new Socket(ip, port);
-	                 } catch (UnknownHostException e) {
-	 
-	                 } catch (IOException e) {
-	 
-	                 }
-	             } while (socket == null);
-	             
-	             outputSockets.add(socket);
-	             System.out.println(socket.getPort() + " " + socket.getInetAddress());
-	         }
-	 
-	     }
-	     
-	     /**
-	      * add all the group's rover into a LIST
-	      */
-	     public void initConnection() {
-	         // dummy value # 1
-	         blue.add(new Group("Dummy Group #1", "localhost", 53799));
-	 
-	         // blue rooster
-	         blue.add(new Group("GROUP_01", "localhost", 53701));
-	         blue.add(new Group("GROUP_02", "localhost", 53702));
-	         blue.add(new Group("GROUP_03", "localhost", 53703));
-	         blue.add(new Group("GROUP_04", "localhost", 53704));
-	         blue.add(new Group("GROUP_05", "localhost", 53705));
-	         blue.add(new Group("GROUP_06", "localhost", 53706));
-	         blue.add(new Group("GROUP_07", "localhost", 53707));
-	         blue.add(new Group("GROUP_08", "localhost", 53708));
-	     }
-	     
-	     /**
-	      * Create and start a thread for each ROVER connected to you.
-	      * 
-	      * @throws IOException
-	      * @author  
-	      */
-	     private void startServer() throws IOException {
-	 
-	         // create a thread that waits for client to connect to 
-	         new Thread(() -> {
-	             while (true) {
-	                 try {
-	                     // wait for a connection
-	                     Socket connectionSocket = listenSocket.accept();
-	 
-	                     // once there is a connection, serve them on thread
-	                     new Thread(new RoverHandler(connectionSocket)).start();
-	                     
-	 
-	                 } catch (IOException e) {
-	                     e.printStackTrace();
-	                 }
-	             }
-	         }).start();
-	     }
-	     
-	     /**
-	      * When any ROVER discovered science, it will write a message to your all ROVERS.
-	      * That message will be "sent" here. This block of code will read whatever
-	      * written to you. Your job is to use the data to tell your rover to go pick
-	      * up that science.
-	      * 
-	      * @author  
-	      *
-	      */
-	     class RoverHandler implements Runnable {
-	         Socket roverSocket;
-	 
-	         public RoverHandler(Socket socket) {
-	             this.roverSocket = socket;
-	         }
-	 
-	         @Override
-	         public void run() {
-	 
-	             try {
-	                 BufferedReader input = new BufferedReader(new InputStreamReader(roverSocket.getInputStream()));
-	 
-	                 while (true) {
-	 
-	                     String line = input.readLine();
-	                     // protocol: ROCK CRYSTAL 25 30
-	                     System.out.println("NEW MESSAGE: " + line);
-	         
-	                     /*
-	                      * IMPLEMENT YOUR CODE HERE
-	                      * WHAT DO YOU WANT TO DO WITH THE DATA?
-	                      */
-	                 }
-	             } catch (IOException e) {
-	                 // TODO Auto-generated catch block
-	                 e.printStackTrace();
-	             }
-	         }
-	 
-	     }
-		/**
-	 * Connects to the server then enters the processing loop.
-	 */
 	private void run() throws IOException, InterruptedException {
 
 		// Make connection and initialize streams
@@ -370,58 +76,26 @@ public class ROVER_09 {
 		Socket socket = new Socket(SERVER_ADDRESS, PORT_ADDRESS); // set port here
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
-<<<<<<< HEAD
 		
-		/*
-         * This is the server that you are listening on. 
-         * This means when we want to contact you, we use that port number.
-         */
-        listenSocket = new ServerSocket(53704);
-        
-        /*
-         * When you start the server, it will set there and waits for people to connect
-         * Once they are connected, a thread is created for each ROVER
-         * All  that thread will do is sit there and read all incoming message to you.
-         * It is your job to parse the information and use it to gather stuff.
-         */
-        startServer();
-        
-        
-        /*
-         * connect to all the ROVERS on a separate thread
-         */
-        initConnection();
-        for (Group group : blue) {
-            new Thread(new RoverComm(group.ip, group.port)).start();
-        }
-        
-=======
+        // ******************* SET UP COMMUNICATION MODULE by Shay *********************
+        /* Your Group Info*/
+        Group group = new Group(rovername, SERVER_ADDRESS, 53709, RoverDriveType.WALKER,
+                RoverToolType.DRILL, RoverToolType.CHEMICAL_SENSOR);
 
-		
-		 		/*
-		          * This is the server that you are listening on. 
-		          * This means when we want to contact you, we use that port number.
-		          */
-		         listenSocket = new ServerSocket(53704);
-		         
-		         /*
-		          * When you start the server, it will set there and waits for people to connect
-		          * Once they are connected, a thread is created for each ROVER
-		          * All  that thread will do is sit there and read all incoming message to you.
-		          * It is your job to parse the information and use it to gather stuff.
-		          */
-		         startServer();
-		         
-		         
-		         /*
-		          * connect to all the ROVERS on a separate thread
-		          */
-		         initConnection();
-		         for (Group group : blue) {
-		             new Thread(new RoverComm(group.ip, group.port)).start();
-		         }
-		         
->>>>>>> refs/remotes/origin/Janak
+        /* Setup communication, only communicates with gatherers */
+        rocom = new RoverCommunication(group,
+                Group.getGatherers(Group.blueCorp(SERVER_ADDRESS)));
+
+        /* Can't go on sand, thus ignore any SCIENCE COORDS that is on SAND */
+        rocom.getReceiver().ignoreTerrains(Terrain.SAND);
+
+        /* Connect to the other ROVERS */
+        rocom.run();
+
+        /* Start your server, receive incoming message from other ROVERS */
+        rocom.startServer();
+        // ******************************************************************
+
 		//Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 		// Process all messages from server, wait until server requests Rover ID
@@ -477,7 +151,6 @@ public class ROVER_09 {
 			if (line.startsWith("LOC")) {
 				// loc = line.substring(4);
 				currentLoc = extractLOC(line);
-				roverLoc = extractLOC(line);
 			}
 			System.out.println("ROVER_09 currentLoc at start: " + currentLoc);
 			
@@ -499,25 +172,6 @@ public class ROVER_09 {
 			this.doScan();
 			scanMap.debugPrintMap();
 			
-			// ****************** Check scan map for science and shared them and contact with other rovers of the group
-<<<<<<< HEAD
-            // ***********************
-
-            detectOraganic(scanMap.getScanMap());
-            System.out.println("SCIENCE DISCOVERED: " + science_discovered);
-            shareScience();
-
-            // *********************************************************************
-			
-
-=======
-			             // ***********************
-			 
-			             detectOraganic(scanMap.getScanMap());
-			             System.out.println("SCIENCE DISCOVERED: " + science_discovered);
-			             shareScience();
-			 
-			             // *********************************************************************
 			
 			MapTile[][] scanMapTiles = scanMap.getScanMap();
 			int centerIndex = (scanMap.getEdgeSize() - 1)/2;
@@ -551,7 +205,6 @@ public class ROVER_09 {
 
     		//System.out.println("It's moving to : " + currentDirection);
             //shareScience();
->>>>>>> refs/remotes/origin/Janak
 			
 			// MOVING the rover 
 
@@ -626,6 +279,10 @@ public class ROVER_09 {
 			System.out.println("ROVER_09 blocked test " + blocked);
 
 			
+            /* ********* Detect and Share Science ***************/
+            rocom.detectAndShare(scanMap.getScanMap(), currentLoc, 3);
+            /* *************************************************/
+            
 			Thread.sleep(sleepTime);
 			
 			System.out.println("ROVER_09 ------------ bottom process control --------------"); 
@@ -637,89 +294,6 @@ public class ROVER_09 {
 	
 	// ################ Support Methods ###########################
 	
-	/**
-<<<<<<< HEAD
-     * iterate through a scan map to find a tile with organic. get the
-     * adjusted (absolute) coordinate of the tile and added into a hash set
-     * 
-     * @param scanMapTiles
-     * @author Shay
-     */
-    private void detectOraganic(MapTile[][] scanMapTiles) {
-        for (int x = 0; x < scanMapTiles.length; x++) {
-            for (int y = 0; y < scanMapTiles[x].length; y++) {
-                MapTile mapTile = scanMapTiles[x][y];
-                if (mapTile.getScience() == Science.ORGANIC) {
-                    int tileX = roverLoc.xpos + (x - 3);
-                    int tileY = roverLoc.ypos + (y - 3);
-                    Coord coord = new Coord(mapTile.getTerrain(), mapTile.getScience(), tileX, tileY);
-                    science_discovered.add(coord);
-                }
-            }
-        }
-    }
-
-    /**
-     * write to each rover the coords of a tile that contains radiation. will
-     * only write to them if the coords are new.
-     * 
-     * @author Shay
-     */
-    private void shareScience() {
-        for (Coord c : science_discovered) {
-            if (!displayed_science.contains(c)) {
-                for (Socket s : outputSockets)
-                    try {
-                        new DataOutputStream(s.getOutputStream()).writeBytes(c.toString() + "\r\n");
-                    } catch (Exception e) {
-
-                    }
-                displayed_science.add(c);
-            }
-        }
-    }
-    
-=======
-      * iterate through a scan map to find a tile with organic. get the
-      * adjusted (absolute) coordinate of the tile and added into a hash set
-      * 
-      * @param scanMapTiles
-      * @author  
-      */
-     private void detectOraganic(MapTile[][] scanMapTiles) {
-         for (int x = 0; x < scanMapTiles.length; x++) {
-             for (int y = 0; y < scanMapTiles[x].length; y++) {
-                 MapTile mapTile = scanMapTiles[x][y];
-                 if (mapTile.getScience() == Science.ORGANIC) {
-                     int tileX = roverLoc.xpos + (x - 3);
-                     int tileY = roverLoc.ypos + (y - 3);
-                     Coord coord = new Coord(mapTile.getTerrain(), mapTile.getScience(), tileX, tileY);
-                     science_discovered.add(coord);
-                 }
-             }
-         }
-     }
- 
-     /**
-      * write to each rover the coords of a tile that contains radiation. will
-      * only write to them if the coords are new.
-      * 
-      * @author  
-      */
-     private void shareScience() {
-         for (Coord c : science_discovered) {
-             if (!displayed_science.contains(c)) {
-                 for (Socket s : outputSockets)
-                     try {
-                         new DataOutputStream(s.getOutputStream()).writeBytes(c.toString() + "\r\n");
-                     } catch (Exception e) {
- 
-                     }
-                 displayed_science.add(c);
-             }
-         }
-     }
->>>>>>> refs/remotes/origin/Janak
 	private void clearReadLineBuffer() throws IOException{
 		while(in.ready()){
 			//System.out.println("ROVER_09 clearing readLine()");
@@ -953,22 +527,6 @@ public class ROVER_09 {
     private boolean isNone(MapTile tile) {
         return tile.getTerrain() == Terrain.NONE;
     }
-    //this method is used to detect the physical sciences and used to gather them
-    private void detectCrystals(MapTile[][] scanMapTiles) {
-        for (int x = 0; x < scanMapTiles.length; x++) {
-            for (int y = 0; y < scanMapTiles[x].length; y++) {
-                MapTile mapTile = scanMapTiles[x][y];
-                if (mapTile.getScience() == Science.CRYSTAL) {
-                    int tileX = cc.xpos + (x - 5);
-                    int tileY = cc.ypos + (y - 5);
-                    System.out.println("CRYSTAL Location: [x:" + tileX
-                            + " y: " + tileY);
-                    science_discovered.add(new Coord(tileX, tileY));
-                }
-            }
-        }
-    }
-	
 
 	/**
 	 * Runs the client

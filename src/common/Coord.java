@@ -1,41 +1,34 @@
 package common;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-<<<<<<< HEAD
 
 import enums.Science;
 import enums.Terrain;
 
-=======
-import enums.Science;
-import enums.Terrain;
->>>>>>> refs/remotes/origin/Janak
 public class Coord {
 	// thanks to this posting http://stackoverflow.com/questions/27581/what-issues-should-be-considered-when-overriding-equals-and-hashcode-in-java
 	
 	public final int xpos;
 	public final int ypos;
-<<<<<<< HEAD
-    Terrain terrain;
-    boolean hasRover;
-    Science science;
+    public Terrain terrain;
+    public Science science;
 	
-=======
-	Terrain terrain;
-	     boolean hasRover;
-	    Science science;
->>>>>>> refs/remotes/origin/Janak
 	@Override
 	public String toString() {
 	    return terrain + " " + science + " " + xpos + " " + ypos;
 	}
+	
+    /** @return String that can be used to send to other ROVERS. This string
+     *         follows the communication protocol: TERRAIN SCIENCE XPOS YPOS
+     * @author Shay */
+    public String toProtocol() {
+        return terrain + " " + science + " " + xpos + " " + ypos;
+    }
 
 	public Coord(int x, int y){
 		this.xpos = x;
 		this.ypos = y;
 	}
-<<<<<<< HEAD
 	
     public Coord(Terrain terrain, Science science, int x, int y) {
         this(x, y);
@@ -43,13 +36,6 @@ public class Coord {
         this.terrain = terrain;
     }
 	
-=======
-	public Coord(Terrain terrain, Science science, int x, int y) {
-		         this(x, y);
-		         this.science = science;
-		         this.terrain = terrain;
-		     }
->>>>>>> refs/remotes/origin/Janak
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
