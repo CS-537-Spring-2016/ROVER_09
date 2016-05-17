@@ -1,32 +1,25 @@
 package swarmBots;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import common.Coord;
-import common.Group;
 import common.MapTile;
-import common.Group;
 import common.ScanMap;
+import communication.Group;
+import communication.RoverCommunication;
+import enums.RoverDriveType;
+import enums.RoverToolType;
 import enums.Science;
 import enums.Terrain;
 
@@ -56,6 +49,9 @@ public class ROVER_09 {
 
     Coord cc = null;
     
+    /* Communication Module*/
+    RoverCommunication rocom;
+    
 	public ROVER_09() {
 		// constructor
 		System.out.println("ROVER_09 rover object constructed");
@@ -80,6 +76,25 @@ public class ROVER_09 {
 		Socket socket = new Socket(SERVER_ADDRESS, PORT_ADDRESS); // set port here
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
+		
+        // ******************* SET UP COMMUNICATION MODULE by Shay *********************
+        /* Your Group Info*/
+        Group group = new Group(rovername, SERVER_ADDRESS, 53709, RoverDriveType.WALKER,
+                RoverToolType.DRILL, RoverToolType.CHEMICAL_SENSOR);
+
+        /* Setup communication, only communicates with gatherers */
+        rocom = new RoverCommunication(group,
+                Group.getGatherers(Group.blueCorp(SERVER_ADDRESS)));
+
+        /* Can't go on sand, thus ignore any SCIENCE COORDS that is on SAND */
+        rocom.getReceiver().ignoreTerrains(Terrain.SAND);
+
+        /* Connect to the other ROVERS */
+        rocom.run();
+
+        /* Start your server, receive incoming message from other ROVERS */
+        rocom.startServer();
+        // ******************************************************************
 
 		//Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -264,6 +279,10 @@ public class ROVER_09 {
 			System.out.println("ROVER_09 blocked test " + blocked);
 
 			
+            /* ********* Detect and Share Science ***************/
+            rocom.detectAndShare(scanMap.getScanMap(), currentLoc, 3);
+            /* *************************************************/
+            
 			Thread.sleep(sleepTime);
 			
 			System.out.println("ROVER_09 ------------ bottom process control --------------"); 

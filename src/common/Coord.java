@@ -1,9 +1,7 @@
 package common;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import enums.Science;
-import enums.Terrain;
+
 import enums.Science;
 import enums.Terrain;
 
@@ -19,6 +17,13 @@ public class Coord {
 	public String toString() {
 	    return terrain + " " + science + " " + xpos + " " + ypos;
 	}
+	
+    /** @return String that can be used to send to other ROVERS. This string
+     *         follows the communication protocol: TERRAIN SCIENCE XPOS YPOS
+     * @author Shay */
+    public String toProtocol() {
+        return terrain + " " + science + " " + xpos + " " + ypos;
+    }
 
 	public Coord(int x, int y){
 		this.xpos = x;
