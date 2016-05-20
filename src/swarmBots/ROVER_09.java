@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-<<<<<<< HEAD
-=======
 import java.util.Set;
->>>>>>> refs/remotes/origin/lishenyu
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,8 +45,6 @@ public class ROVER_09 {
 	int sleepTime;
 	String SERVER_ADDRESS = "localhost";
 	static final int PORT_ADDRESS = 9537;
-<<<<<<< HEAD
-=======
  	// all the sockets of blue team - output
     List<Socket> outputSockets = new ArrayList<Socket>();
 
@@ -69,16 +64,11 @@ public class ROVER_09 {
 
     // Your ROVER is going to listen for connection with this
     ServerSocket listenSocket;
->>>>>>> refs/remotes/origin/lishenyu
 	int currentDirection = 1;//move east at first
 	
     Coord cc = null;
     HashSet<Coord> science_collection = new HashSet<Coord>();
-<<<<<<< HEAD
-    HashSet<Coord> displayed_science = new HashSet<Coord>();
-=======
 //    HashSet<Coord> displayed_science = new HashSet<Coord>();
->>>>>>> refs/remotes/origin/lishenyu
 
 	public ROVER_09() {
 		// constructor
@@ -358,63 +348,6 @@ public class ROVER_09 {
 			
 			// MOVING
 
-<<<<<<< HEAD
-			// try moving east 5 block if blocked
-//			if (blocked) {
-//				for (int i = 0; i < 5; i++) {
-//					out.println("MOVE S");
-//				//System.out.println("ROVER_00 request move E");
-//					Thread.sleep(300);
-//				}
-//				out.println("MOVE N");
-//				blocked = false;
-//					//reverses direction after being blocked
-//				goingEast = !goingEast;
-//				//goingSouth
-//				
-//			} else {
-//
-//
-//				// pull the MapTile array out of the ScanMap object
-//				MapTile[][] scanMapTiles = scanMap.getScanMap();
-//				int centerIndex = (scanMap.getEdgeSize() - 1)/2;
-//				// tile S = y + 1; N = y - 1; E = x + 1; W = x - 1
-//
-//				if (goingEast) {
-//					// check scanMap to see if path is blocked to the south
-//					// (scanMap may be old data by now)
-//					if (scanMapTiles[centerIndex+1][centerIndex].getHasRover() 
-//							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.SAND
-//							|| scanMapTiles[centerIndex +1][centerIndex].getTerrain() == Terrain.NONE) {
-//						blocked = true;
-//					} else {
-//						// request to server to move
-//						out.println("MOVE E");
-//						System.out.println("ROVER_09 request move E");
-//					}
-//					
-//				} else {
-//					// check scanMap to see if path is blocked to the north
-//					// (scanMap may be old data by now)
-//					System.out.println("ROVER_09 scanMapTiles[2][1].getHasRover() " + scanMapTiles[2][1].getHasRover());
-//					System.out.println("ROVER_09 scanMapTiles[2][1].getTerrain() " + scanMapTiles[2][1].getTerrain().toString());
-//					
-//					if (scanMapTiles[centerIndex-1][centerIndex].getHasRover() 
-//							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.SAND
-//							|| scanMapTiles[centerIndex -1][centerIndex].getTerrain() == Terrain.NONE) {
-//						blocked = true;
-//					} else {
-//						// request to server to move
-//						out.println("MOVE W");
-//						System.out.println("ROVER_09 request move W");
-//					}
-//					
-//				}
-//
-//			}
-
-=======
->>>>>>> refs/remotes/origin/lishenyu
 			// another call for current location
 			out.println("LOC");
 			line = in.readLine();
@@ -696,16 +629,6 @@ public class ROVER_09 {
         return tile.getTerrain() == Terrain.NONE;
     }
     
-<<<<<<< HEAD
-    private void detectCrystals(MapTile[][] scanMapTiles) {
-        for (int x = 0; x < scanMapTiles.length; x++) {
-            for (int y = 0; y < scanMapTiles[x].length; y++) {
-                MapTile mapTile = scanMapTiles[x][y];
-                if (mapTile.getScience() == Science.CRYSTAL) {
-                    int tileX = cc.xpos + (x - 5);
-                    int tileY = cc.ypos + (y - 5);
-                    System.out.println("CRYSTAL Location: [x:" + tileX
-=======
     private void detectOrganic(MapTile[][] scanMapTiles) {
         for (int x = 0; x < scanMapTiles.length; x++) {
             for (int y = 0; y < scanMapTiles[x].length; y++) {
@@ -714,15 +637,12 @@ public class ROVER_09 {
                     int tileX = cc.xpos + (x - 5);
                     int tileY = cc.ypos + (y - 5);
                     System.out.println("ORGANIC Location: [x:" + tileX
->>>>>>> refs/remotes/origin/lishenyu
                             + " y: " + tileY);
                     science_collection.add(new Coord(tileX, tileY));
                 }
             }
         }
     }
-<<<<<<< HEAD
-=======
     private void shareScience() {
         for (Coord c : science_discovered) {
             if (!displayed_science.contains(c)) {
@@ -736,7 +656,6 @@ public class ROVER_09 {
             }
         }
     }
->>>>>>> refs/remotes/origin/lishenyu
 	
 
 	/**
