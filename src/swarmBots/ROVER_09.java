@@ -541,10 +541,11 @@ public class ROVER_09 {
     //when starts ,robot goes as this logic
     private void basicMove(int direction, MapTile[][] scanMapTiles,
             int centerIndex) {
-    	if(localSteps%20==0){
+    	if(localSteps==20){
     		Random r = new Random();
     		int randomDir = r.nextInt(4)+1;
     		currentDirection = randomDir;
+    		localSteps=0;
     	}
     	if(direction==1&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex-1])
     			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
