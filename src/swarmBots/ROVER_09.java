@@ -380,18 +380,7 @@ public class ROVER_09 {
      * @author  
      */
 //    private void detectOraganic(MapTile[][] scanMapTiles) {
-//        for (int x = 0; x < scanMapTiles.length; x++) {
-//            for (int y = 0; y < scanMapTiles[x].length; y++) {
-//                MapTile mapTile = scanMapTiles[x][y];
-//                if (mapTile.getScience() == Science.ORGANIC) {
-//                    int tileX = roverLoc.xpos + (x - 3);
-//                    int tileY = roverLoc.ypos + (y - 3);
-//                    Coord coord = new Coord(mapTile.getTerrain(), mapTile.getScience(), tileX, tileY);
-//                    science_discovered.add(coord);
-//                }
-//            }
-//        }
-//    }
+
 	
 	private void clearReadLineBuffer() throws IOException{
 		while(in.ready()){
