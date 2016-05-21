@@ -50,8 +50,8 @@ public class SwarmServer {
     private static final int PORT = 9537; // because ... csula class number
     
     private static SwarmMapInit mapInit = new SwarmMapInit();
-    
     private static String mapFileName = "MapDefault.txt";
+    //private static String mapFileName = "convertedPaintMapToTextMap.txt";
 
     private static int mapWidth = 0;
     private static int mapHeight = 0;
@@ -220,7 +220,6 @@ public class SwarmServer {
                 
                 // make and instantiate a Rover object connected to this thread
                 RoverName rname = RoverName.getEnum(roverNameString); 
-                //System.out.println("SWARM: make a rover name " + rname);
                 Rover rover = new Rover(rname);
                 
                 
@@ -329,7 +328,7 @@ public class SwarmServer {
         			/**
                 	 * ******************** TIMER **********************
                 	 */
-                    // gets the current position of the rover	
+                    // returns the total number of seconds remaining on the countdown timer	
                     } else if (input.startsWith("TIMER")){  
                     	int timeRemaining = 0;
                     	timeRemaining = (MAXIMUM_ACTIVITY_TIME_LIMIT - (int)(System.currentTimeMillis() - startTime)) / 1000;
@@ -340,8 +339,8 @@ public class SwarmServer {
                 	/**
                 	 * ******************* GATHER ***********************
                 	 */	
-                    	// collect the science using either a drill or harvester
-                    	// GATHER is a command with no return response
+                	// collect the science using either a drill or harvester
+                	// GATHER is a command with no return response
                     } else if(input.startsWith("GATHER")) {
                         
                     	// does not need to synchronize-lock roverLocations because not changing any values
@@ -361,20 +360,14 @@ public class SwarmServer {
 	                    			corpCollectedScience.get(getCorpNumber(rover)).add(foundScience);
 	                    			System.out.println("SwarmServer: corp " + getCorpNumber(rover) + " total science = " + corpCollectedScience.get(getCorpNumber(rover)).size());
 	                    		}
-	                    		else{
-	                    			System.out.println("not satisfied !!!!!!!!!!!!!");
-	                    		}
 	                    		
-	                    		if((rover.getTool_1() == RoverToolType.EXCAVATOR || (rover.getTool_2() == RoverToolType.EXCAVATOR) 
+	                    		if((rover.getTool_1() == RoverToolType.HARVESTER || (rover.getTool_2() == RoverToolType.HARVESTER) 
 	                    				 && (planetMap.getTile(roverPos).getTerrain() == Terrain.SOIL || planetMap.getTile(roverPos).getTerrain() == Terrain.SAND))){
 	                    			// remove the science from scienceLocations and store in rover scienceCargo	
 	                    			Science foundScience = scienceLocations.takeScience(roverPos);
 	                    			rover.scienceCargo.add(foundScience);
 	                    			corpCollectedScience.get(getCorpNumber(rover)).add(foundScience);
 	                    			System.out.println("SwarmServer: corp " + getCorpNumber(rover) + " total science = " + corpCollectedScience.get(getCorpNumber(rover)).size());
-	                    		}
-	                    		else{
-	                    			System.out.println("not satisfied !!!!!!!!!!!!!");
 	                    		}
 	                    	}
 	                    	scoreDisplayUpdate();
@@ -470,7 +463,7 @@ public class SwarmServer {
 			// length of a side of the scan map array !!! must be odd number !!!
 			int scanRange = STANDARD_SCANMAP_RANGE;
 			// Adjust scanMap range with use of scan range booster
-			if(thisRover.getTool_1() == RoverToolType.RANGE_BOOTER || thisRover.getTool_2() == RoverToolType.RANGE_BOOTER){
+			if(thisRover.getTool_1() == RoverToolType.RANGE_BOOSTER || thisRover.getTool_2() == RoverToolType.RANGE_BOOSTER){
 				scanRange = BOOSTED_SCANMAP_RANGE;
 			}
 
@@ -624,9 +617,11 @@ public class SwarmServer {
 	    	}
 	    	
 	    	// ********* TREADS **********
-	    	// TREADS dont get stuck
+	    	// test for conditions that will prevent movement - too soon after last move and sitting on a rock
+	    	// treads will get stuck on rocks
 	    	if(thisRover.getRoverDrive() == RoverDriveType.TREADS
-	    			&& thisRover.getRoverLastMoveTime() + TREADS_TIME_PER_SQUARE < (System.currentTimeMillis()) ){
+	    			&& thisRover.getRoverLastMoveTime() + TREADS_TIME_PER_SQUARE < (System.currentTimeMillis()) 
+	    			&& planetMap.getTile(roverPos).getTerrain() != Terrain.ROCK){
 	    			    		
 	    			if(requestedMoveDir.equals("N")){
 		    		yCurrentPos = yCurrentPos - 1;
@@ -636,7 +631,7 @@ public class SwarmServer {
     				}
 		    		//check planetMap (immutable)
 		    		MapTile moveThere = planetMap.getTile(xCurrentPos, yCurrentPos);
-			    		if(moveThere.getTerrain() != Terrain.ROCK && moveThere.getTerrain() != Terrain.NONE){
+			    		if(moveThere.getTerrain() != Terrain.NONE){
 				    		// Move to the new map square, unless occupied by another rover 		
 				    		if(roverLocations.moveRover(thisRover.getRoverName(), new Coord(xCurrentPos, yCurrentPos))){
 				    			// if moveRover call is successful then update latest move time value
@@ -655,7 +650,7 @@ public class SwarmServer {
     				}
 		    		//check planetMap (immutable)
 		    		MapTile moveThere = planetMap.getTile(xCurrentPos, yCurrentPos);
-			    		if(moveThere.getTerrain() != Terrain.ROCK && moveThere.getTerrain() != Terrain.NONE){
+			    		if(moveThere.getTerrain() != Terrain.NONE){
 				    		// Move to the new map square, unless occupied by another rover		    		
 				    		if(roverLocations.moveRover(thisRover.getRoverName(), new Coord(xCurrentPos, yCurrentPos))){
 				    			// if moveRover call is successful then update latest move time value
@@ -674,7 +669,7 @@ public class SwarmServer {
 	    				}
 			    		//check planetMap (immutable)
 			    		MapTile moveThere = planetMap.getTile(xCurrentPos, yCurrentPos);
-				    		if(moveThere.getTerrain() != Terrain.ROCK && moveThere.getTerrain() != Terrain.NONE){
+				    		if(moveThere.getTerrain() != Terrain.NONE){
 					    		// Move to the new map square, unless occupied by another rover
 					    		if(roverLocations.moveRover(thisRover.getRoverName(), new Coord(xCurrentPos, yCurrentPos))){
 					    			// if moveRover call is successful then update latest move time value
@@ -693,7 +688,7 @@ public class SwarmServer {
 	    				}
 			    		//check planetMap (immutable)
 			    		MapTile moveThere = planetMap.getTile(xCurrentPos, yCurrentPos);
-				    		if(moveThere.getTerrain() != Terrain.ROCK && moveThere.getTerrain() != Terrain.NONE){
+				    		if(moveThere.getTerrain() != Terrain.NONE){
 					    		// Move to the new map square, unless occupied by another rover	
 					    		if(roverLocations.moveRover(thisRover.getRoverName(), new Coord(xCurrentPos, yCurrentPos))){
 					    			// if moveRover call is successful then update latest move time value
