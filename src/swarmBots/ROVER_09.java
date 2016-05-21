@@ -553,9 +553,22 @@ public class ROVER_09 {
     //when starts ,robot goes as this logic
     private void basicMove(int direction, MapTile[][] scanMapTiles,
             int centerIndex) {
-//    	if(direction==1&&){
-//    		
-//    	}
+    	if(direction==1&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex-1])
+    			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
+    		currentDirection=4;
+    	}
+    	if(direction==3&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex-1])
+    			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
+    		currentDirection=4;
+    	}
+    	if(direction==2&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex-1])
+    			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
+    		currentDirection=4;
+    	}
+    	if(direction==4&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex-1])
+    			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
+    		currentDirection=4;
+    	}
 
         if (isNextBlock(direction, scanMapTiles, centerIndex)) {
             int goodDirection = findGoodDirection(direction, scanMapTiles,
