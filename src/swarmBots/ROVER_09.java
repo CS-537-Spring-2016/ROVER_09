@@ -20,7 +20,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import common.Coord;
-import common.Group;
 import common.MapTile;
 import common.ScanMap;
 import enums.Science;
@@ -44,15 +43,12 @@ public class ROVER_09 {
 	String rovername;
 	ScanMap scanMap;
 	int sleepTime;
-	String SERVER_ADDRESS = "localhost";
+	String SERVER_ADDRESS = "192.168.1.106";
 	static final int PORT_ADDRESS = 9537;
 	
 	 int localSteps = 1;
  	// all the sockets of blue team - output
     List<Socket> outputSockets = new ArrayList<Socket>();
-
-    // objects contains each rover IP, port, and name
-    List<Group> blue = new ArrayList<Group>();
 
     // every science detected will be added in to this set
     Set<Coord> science_discovered = new HashSet<Coord>();
@@ -77,7 +73,7 @@ public class ROVER_09 {
 		// constructor
 		System.out.println("ROVER_09 rover object constructed");
 		rovername = "ROVER_09";
-		SERVER_ADDRESS = "localhost";
+		SERVER_ADDRESS = "192.168.1.106";
 		// this should be a safe but slow timer value
 		sleepTime = 300; // in milliseconds - smaller is faster, but the server will cut connection if it is too small
 	}
@@ -126,21 +122,21 @@ public class ROVER_09 {
     }
     /**
      * add all the group's rover into a LIST
-     */
-    public void initConnection() {
-        // dummy value # 1
-        blue.add(new Group("Dummy Group #1", "localhost", 53799));
-
-        // blue rooster
-        blue.add(new Group("GROUP_01", "localhost", 53701));
-        blue.add(new Group("GROUP_02", "localhost", 53702));
-        blue.add(new Group("GROUP_03", "localhost", 53703));
-        blue.add(new Group("GROUP_04", "localhost", 53704));
-        blue.add(new Group("GROUP_05", "localhost", 53705));
-        blue.add(new Group("GROUP_06", "localhost", 53706));
-        blue.add(new Group("GROUP_07", "localhost", 53707));
-        blue.add(new Group("GROUP_08", "localhost", 53708));
-    }
+//     */
+//    public void initConnection() {
+//        // dummy value # 1
+//        blue.add(new Group("Dummy Group #1", "192.168.1.106", 53799));
+//
+//        // blue rooster
+//        blue.add(new Group("GROUP_01", "192.168.1.106", 53701));
+//        blue.add(new Group("GROUP_02", "192.168.1.106", 53702));
+//        blue.add(new Group("GROUP_03", "192.168.1.106", 53703));
+//        blue.add(new Group("GROUP_04", "192.168.1.106", 53704));
+//        blue.add(new Group("GROUP_05", "192.168.1.106", 53705));
+//        blue.add(new Group("GROUP_06", "192.168.1.106", 53706));
+//        blue.add(new Group("GROUP_07", "192.168.1.106", 53707));
+//        blue.add(new Group("GROUP_08", "192.168.1.106", 53708));
+//    }
     /**
      * Create and start a thread for each ROVER connected to you.
      * 
@@ -228,10 +224,10 @@ public class ROVER_09 {
         /*
          * connect to all the ROVERS on a separate thread
          */
-        initConnection();
-        for (Group group : blue) {
-            new Thread(new RoverComm(group.ip, group.port)).start();
-        }
+//        initConnection();
+//        for (Group group : blue) {
+//            new Thread(new RoverComm(group.ip, group.port)).start();
+//        }
         
 		// Process all messages from server, wait until server requests Rover ID
 		// name
