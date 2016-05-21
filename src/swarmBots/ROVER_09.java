@@ -557,17 +557,17 @@ public class ROVER_09 {
     			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
     		currentDirection=4;
     	}
-    	if(direction==3&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex-1])
-    			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
-    		currentDirection=4;
+    	if(direction==3&&isBlocked(scanMapTiles[centerIndex][centerIndex-1])&&isBlocked(scanMapTiles[centerIndex - 1][centerIndex])
+    			&&isBlocked(scanMapTiles[centerIndex-1][centerIndex + 1])){
+    		currentDirection=2;
     	}
-    	if(direction==2&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex-1])
-    			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
-    		currentDirection=4;
+    	if(direction==2&&isBlocked(scanMapTiles[centerIndex - 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex][centerIndex+1])
+    			&&isBlocked(scanMapTiles[centerIndex+1][centerIndex + 1])){
+    		currentDirection=1;
     	}
-    	if(direction==4&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex-1])
-    			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
-    		currentDirection=4;
+    	if(direction==4&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex][centerIndex-1])
+    			&&isBlocked(scanMapTiles[centerIndex-1][centerIndex - 1])){
+    		currentDirection=3;
     	}
 
         if (isNextBlock(direction, scanMapTiles, centerIndex)) {
