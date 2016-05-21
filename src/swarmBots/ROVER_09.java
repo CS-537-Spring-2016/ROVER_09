@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.google.gson.Gson;
@@ -45,6 +46,8 @@ public class ROVER_09 {
 	int sleepTime;
 	String SERVER_ADDRESS = "localhost";
 	static final int PORT_ADDRESS = 9537;
+	
+	 int localSteps = 1;
  	// all the sockets of blue team - output
     List<Socket> outputSockets = new ArrayList<Socket>();
 
@@ -495,6 +498,7 @@ public class ROVER_09 {
 	}
 	
     private void move(int direction) {
+    	localSteps++;
     	if(direction ==1){
           out.println("MOVE E");
     	}
@@ -553,6 +557,11 @@ public class ROVER_09 {
     //when starts ,robot goes as this logic
     private void basicMove(int direction, MapTile[][] scanMapTiles,
             int centerIndex) {
+    	if(localSteps%20==0){
+    		Random r = new Random();
+    		int randomDir = r.nextInt(4)+1;
+    		currentDirection = randomDir;
+    	}
     	if(direction==1&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex])&&isBlocked(scanMapTiles[centerIndex + 1][centerIndex-1])
     			&&isBlocked(scanMapTiles[centerIndex][centerIndex + 1])){
     		currentDirection=4;
