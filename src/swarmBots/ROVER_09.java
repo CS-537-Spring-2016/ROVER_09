@@ -22,7 +22,17 @@ import com.google.gson.reflect.TypeToken;
 import common.Coord;
 import common.MapTile;
 import common.ScanMap;
+import common.Tracker;
 import enums.Science;
+import enums.Terrain;
+import common.Coord;
+import common.MapTile;
+import common.ScanMap;
+
+import communication.CommunicationServer;
+import communication.Group;
+import enums.RoverDriveType;
+import enums.RoverToolType;
 import enums.Terrain;
 
 
@@ -45,6 +55,18 @@ public class ROVER_09 {
 	int sleepTime;
 	String SERVER_ADDRESS = "192.168.1.106";
 	static final int PORT_ADDRESS = 9537;
+	
+    /* swarm server constants */
+    final String CURRENT_LOC = "LOC";
+    final String TARGET_LOC = "TARGET_LOC";
+    final int SLEEP_TIME = 750;
+    final int CENTER_INDEX = 5;
+    
+    /* communication module */
+    CommunicationServer communicationServer;
+    
+    /* movement */
+    Tracker roverTracker;
 	
 	 int localSteps = 1;
  	// all the sockets of blue team - output
