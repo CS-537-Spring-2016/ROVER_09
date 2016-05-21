@@ -248,11 +248,6 @@ public class ROVER_09 {
 		// ******** Rover logic *********
 		// int cnt=0;
 		String line = "";
-
-		int counter = 0;
-		
-		boolean goingSouth = false;
-		boolean goingEast = false;
 		
 		boolean stuck = false; // just means it did not change locations between requests,
 								// could be velocity limit or obstruction etc.
@@ -344,7 +339,7 @@ public class ROVER_09 {
         	}
         	
             basicMove(currentDirection, scanMapTiles, centerIndex);
-            
+            shareScience();
 
     		//System.out.println("It's moving to : " + currentDirection);
             //shareScience();
@@ -654,7 +649,7 @@ public class ROVER_09 {
         }
     }
     private void shareScience() {
-        for (Coord c : science_discovered) {
+        for (Coord c : science_collection) {
             if (!displayed_science.contains(c)) {
                 for (Socket s : outputSockets)
                     try {
