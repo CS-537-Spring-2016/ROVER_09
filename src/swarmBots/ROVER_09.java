@@ -529,15 +529,6 @@ public class ROVER_09 {
      */
     private int findGoodDirection(int direction,
             MapTile[][] scanMapTiles, int centerIndex) {
-
-//        if (isNextBlock(direction, scanMapTiles, centerIndex)) {
-//        	//direction = (direction+1)%4;
-//            return findGoodDirection(changeDirection(direction), scanMapTiles,
-//                    centerIndex);
-//        } else {
-//        	direction = (direction+1)%4;
-//            return direction;
-//        }
         if (isNextBlock((direction+1)%4, scanMapTiles, centerIndex)) {
         	if(isNextBlock((direction+3)%4, scanMapTiles, centerIndex)){
             	if(isNextBlock((direction+2)%4, scanMapTiles, centerIndex)){
@@ -562,12 +553,9 @@ public class ROVER_09 {
     //when starts ,robot goes as this logic
     private void basicMove(int direction, MapTile[][] scanMapTiles,
             int centerIndex) {
-//    	MapTile tile = scanMapTiles[centerIndex][centerIndex];
-//        Science science = tile.getScience();
-//    	if(science.equals(Science.ORGANIC)){
-//			System.out.println("ROVER_09 is requesting GATHER organic!");
-//			out.println("GATHER");
-//    	}for(){
+//    	if(direction==1&&){
+//    		
+//    	}
 
         if (isNextBlock(direction, scanMapTiles, centerIndex)) {
             int goodDirection = findGoodDirection(direction, scanMapTiles,
