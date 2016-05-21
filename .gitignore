@@ -1,23 +1,20 @@
-<<<<<<< HEAD
-/bin/
-=======
 # Ignore everything
 *
 
 # But not these files...
-!.gitignore
-
-!src
-!src/
-!src/*
-!src/*/
-!src/*/*
-
-!libs
-!libs/
-!libs/*
-!libs/*/
-!libs/*/*
-
-!*.txt
->>>>>>> 1723a628b9706bcb894e8718f40d3b1623d38c25
+# !.gitignore
+#
+# !src
+# !src/
+# !src/*
+# !src/*/
+# !src/*/*
+#
+# !libs
+# !libs/
+# !libs/*
+# !libs/*/
+# !libs/*/*
+#
+# !*.txt
+# 
