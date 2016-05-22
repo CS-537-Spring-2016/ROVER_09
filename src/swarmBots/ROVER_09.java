@@ -389,94 +389,15 @@ public class ROVER_09 {
 
 	}
 	/*logic 
-	System.out.println("ROVER_09 currentLoc at start: " + currentLoc);
-			
-			// after getting location set previous equal current to be able to check for stuckness and blocked later
-			previousLoc = currentLoc;
-			
-			
-			
-			// **** get equipment listing ****			
-			ArrayList<String> equipment = new ArrayList<String>();
-			equipment = getEquipment();
-			//System.out.println("ROVER_09 equipment list results drive " + equipment.get(0));
-			System.out.println("ROVER_09 equipment list results " + equipment + "\n");
-			
-	
-
-			// ***** do a SCAN *****
-			//System.out.println("ROVER_09 sending SCAN request");
-			this.doScan();
-			scanMap.debugPrintMap();
-			
-			
-			MapTile[][] scanMapTiles = scanMap.getScanMap();
-			int centerIndex = (scanMap.getEdgeSize() - 1)/2;
-        	MapTile tile = scanMapTiles[centerIndex][centerIndex];
-            Science science = tile.getScience();
-        	if(science.equals(Science.ORGANIC)){
-    			System.out.println("ROVER_09 is requesting GATHER organic!");
-    			out.println("GATHER");
-        	}
-        	Thread.sleep(200);
-        	int m,n=0;
-        	if((scanMapTiles[centerIndex-1][centerIndex].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex-1][centerIndex].getTerrain()==Terrain.ROCK)
-        			||(scanMapTiles[centerIndex-2][centerIndex].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex-2][centerIndex].getTerrain()==Terrain.ROCK&&
-        			!isBlocked(scanMapTiles[centerIndex-1][centerIndex]))){
-				currentDirection = 3;
-				basicMove(currentDirection, scanMapTiles, centerIndex);
-        	}
-        	if((scanMapTiles[centerIndex+1][centerIndex].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex+1][centerIndex].getTerrain()==Terrain.ROCK)
-        			||(scanMapTiles[centerIndex+2][centerIndex].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex+2][centerIndex].getTerrain()==Terrain.ROCK&&
-        			!isBlocked(scanMapTiles[centerIndex+1][centerIndex]))){
-				currentDirection = 1;
-				basicMove(currentDirection, scanMapTiles, centerIndex);
-        	}
-        	if((scanMapTiles[centerIndex][centerIndex-1].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex][centerIndex-1].getTerrain()==Terrain.ROCK)
-        			||(scanMapTiles[centerIndex][centerIndex-2].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex][centerIndex-2].getTerrain()==Terrain.ROCK&&
-        			!isBlocked(scanMapTiles[centerIndex][centerIndex-1]))){
-				currentDirection = 4;
-				basicMove(currentDirection, scanMapTiles, centerIndex);
-        	}
-        	if((scanMapTiles[centerIndex][centerIndex+1].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex][centerIndex+1].getTerrain()==Terrain.ROCK)
-        			||(scanMapTiles[centerIndex][centerIndex+2].getScience()==Science.ORGANIC&&scanMapTiles[centerIndex][centerIndex+2].getTerrain()==Terrain.ROCK&&
-        			!isBlocked(scanMapTiles[centerIndex][centerIndex+1]))){
-				currentDirection = 2;
-				basicMove(currentDirection, scanMapTiles, centerIndex);
-        	}
-        	
-            basicMove(currentDirection, scanMapTiles, centerIndex);
-            shareScience();
-
-    		//System.out.println("It's moving to : " + currentDirection);
-            //shareScience();
-			
-			// MOVING
-
-			// another call for current location
-			out.println("LOC");
-			line = in.readLine();
-			if (line.startsWith("LOC")) {
-				currentLoc = extractLOC(line);
-			}
-
-			System.out.println("ROVER_09 currentLoc after recheck: " + currentLoc);
-			System.out.println("ROVER_09 previousLoc: " + previousLoc);
-
-			// test for stuckness
-			stuck = currentLoc.equals(previousLoc);
-
-			System.out.println("ROVER_09 stuck test " + stuck);
-			System.out.println("ROVER_09 blocked test " + blocked);
-
-			
-			Thread.sleep(sleepTime);
-			
-			System.out.println("ROVER_09 ------------ bottom process control --------------"); 
-
-		}
-
-	}
+// ################ Support Methods ###########################
+	/**
+     * iterate through a scan map to find a tile with organic. get the
+     * adjusted (absolute) coordinate of the tile and added into a hash set
+     * 
+     * @param scanMapTiles
+     * @author  
+     */
+//    private void detectOraganic(MapTile[][] scanMapTiles) {
 	*/
 	// ################ Support Methods ###########################
 	/**
