@@ -621,7 +621,30 @@ public class ROVER_09 {
           return isBlocked(scanMapTiles[centerIndex][centerIndex - 1]);
     	}
     }
+    /*
+    private boolean isBlocked(MapTile tile) {
+        List<Terrain> blockers = Arrays.asList(Terrain.NONE,
+                Terrain.SAND);
+        Terrain terrain = tile.getTerrain();
+        return tile.getHasRover() || blockers.contains(terrain);
+    }
     
+    //determine if next block can block robot:
+    public boolean isNextBlock(int direction, MapTile[][] scanMapTiles,int centerIndex) {
+    	if(direction==1){
+          return isBlocked(scanMapTiles[centerIndex + 1][centerIndex]);
+    	}
+    	else if(direction==2){
+          return isBlocked(scanMapTiles[centerIndex][centerIndex + 1]);
+    	}
+    	else if(direction==3){
+          return isBlocked(scanMapTiles[centerIndex - 1][centerIndex]);
+    	}
+    	else{
+          return isBlocked(scanMapTiles[centerIndex][centerIndex - 1]);
+    	}
+    }
+    */
     private boolean isNextEdge(int direction, MapTile[][] scanMapTiles,
             int centerIndex) {
     	if(direction==1){
