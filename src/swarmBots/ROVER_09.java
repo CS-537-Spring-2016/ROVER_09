@@ -389,60 +389,51 @@ public class ROVER_09 {
 
 	}
 	/*logic 
-	if(jsonScanMapIn.startsWith("SCAN")){	
-			while (!(jsonScanMapIn = in.readLine()).equals("SCAN_END")) {
-				//System.out.println("ROVER_09 incomming SCAN result: " + jsonScanMapIn);
-				jsonScanMap.append(jsonScanMapIn);
-				jsonScanMap.append("\n");
+	private void clearReadLineBuffer() throws IOException{
+		while(in.ready()){
+			//System.out.println("ROVER_09 clearing readLine()");
+			String garbage = in.readLine();	
+		}
+	}
+	
+
+	// method to retrieve a list of the rover's equipment from the server
+	private ArrayList<String> getEquipment() throws IOException {
+		//System.out.println("ROVER_09 method getEquipment()");
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		out.println("EQUIPMENT");
+		
+		String jsonEqListIn = in.readLine(); //grabs the string that was returned first
+		if(jsonEqListIn == null){
+			jsonEqListIn = "";
+		}
+		StringBuilder jsonEqList = new StringBuilder();
+		//System.out.println("ROVER_09 incomming EQUIPMENT result - first readline: " + jsonEqListIn);
+		
+		if(jsonEqListIn.startsWith("EQUIPMENT")){
+			while (!(jsonEqListIn = in.readLine()).equals("EQUIPMENT_END")) {
+				if(jsonEqListIn == null){
+					break;
+				}
+				//System.out.println("ROVER_09 incomming EQUIPMENT result: " + jsonEqListIn);
+				jsonEqList.append(jsonEqListIn);
+				jsonEqList.append("\n");
 				//System.out.println("ROVER_09 doScan() bottom of while");
 			}
 		} else {
 			// in case the server call gives unexpected results
 			clearReadLineBuffer();
-			return; // server response did not start with "SCAN"
+			return null; // server response did not start with "EQUIPMENT"
 		}
-		//System.out.println("ROVER_09 finished scan while");
-
-		String jsonScanMapString = jsonScanMap.toString();
-		// debug print json object to a file
-		//new MyWriter( jsonScanMapString, 0);  //gives a strange result - prints the \n instead of newline character in the file
-
-		//System.out.println("ROVER_09 convert from json back to ScanMap class");
-		// convert from the json string back to a ScanMap object
-		scanMap = gson.fromJson(jsonScanMapString, ScanMap.class);		
+		
+		String jsonEqListString = jsonEqList.toString();		
+		ArrayList<String> returnList;		
+		returnList = gson.fromJson(jsonEqListString, new TypeToken<ArrayList<String>>(){}.getType());		
+		//System.out.println("ROVER_09 returnList " + returnList);
+		
+		return returnList;
 	}
-	
 
-	// this takes the LOC response string, parses out the x and x values and
-	// returns a Coord object
-	public static Coord extractLOC(String sStr) {
-		sStr = sStr.substring(4);
-		if (sStr.lastIndexOf(" ") != -1) {
-			String xStr = sStr.substring(0, sStr.lastIndexOf(" "));
-			//System.out.println("extracted xStr " + xStr);
-
-			String yStr = sStr.substring(sStr.lastIndexOf(" ") + 1);
-			//System.out.println("extracted yStr " + yStr);
-			return new Coord(Integer.parseInt(xStr), Integer.parseInt(yStr));
-		}
-		return null;
-	}
-	
-    private void move(int direction) {
-    	localSteps++;
-    	if(direction ==1){
-          out.println("MOVE E");
-    	}
-    	else if(direction ==2){
-            out.println("MOVE S");
-      	}
-    	else if(direction ==3){
-            out.println("MOVE W");
-      	}
-    	else{
-            out.println("MOVE N");
-      	}
-    }
      */
 //    private void detectOraganic(MapTile[][] scanMapTiles) {
 
