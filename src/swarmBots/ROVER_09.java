@@ -389,7 +389,7 @@ public class ROVER_09 {
 
 	}
 	/*logic 
-	private void clearReadLineBuffer() throws IOException{
+		private void clearReadLineBuffer() throws IOException{
 		while(in.ready()){
 			//System.out.println("ROVER_09 clearing readLine()");
 			String garbage = in.readLine();	
@@ -433,6 +433,76 @@ public class ROVER_09 {
 		
 		return returnList;
 	}
+	
+
+	// sends a SCAN request to the server and puts the result in the scanMap array
+	public void doScan() throws IOException {
+		//System.out.println("ROVER_09 method doScan()");
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		out.println("SCAN");
+
+		String jsonScanMapIn = in.readLine(); //grabs the string that was returned first
+		if(jsonScanMapIn == null){
+			System.out.println("ROVER_09 check connection to server");
+			jsonScanMapIn = "";
+		}
+		StringBuilder jsonScanMap = new StringBuilder();
+		System.out.println("ROVER_09 incomming SCAN result - first readline: " + jsonScanMapIn);
+		
+		if(jsonScanMapIn.startsWith("SCAN")){	
+			while (!(jsonScanMapIn = in.readLine()).equals("SCAN_END")) {
+				//System.out.println("ROVER_09 incomming SCAN result: " + jsonScanMapIn);
+				jsonScanMap.append(jsonScanMapIn);
+				jsonScanMap.append("\n");
+				//System.out.println("ROVER_09 doScan() bottom of while");
+			}
+		} else {
+			// in case the server call gives unexpected results
+			clearReadLineBuffer();
+			return; // server response did not start with "SCAN"
+		}
+		//System.out.println("ROVER_09 finished scan while");
+
+		String jsonScanMapString = jsonScanMap.toString();
+		// debug print json object to a file
+		//new MyWriter( jsonScanMapString, 0);  //gives a strange result - prints the \n instead of newline character in the file
+
+		//System.out.println("ROVER_09 convert from json back to ScanMap class");
+		// convert from the json string back to a ScanMap object
+		scanMap = gson.fromJson(jsonScanMapString, ScanMap.class);		
+	}
+	
+
+	// this takes the LOC response string, parses out the x and x values and
+	// returns a Coord object
+	public static Coord extractLOC(String sStr) {
+		sStr = sStr.substring(4);
+		if (sStr.lastIndexOf(" ") != -1) {
+			String xStr = sStr.substring(0, sStr.lastIndexOf(" "));
+			//System.out.println("extracted xStr " + xStr);
+
+			String yStr = sStr.substring(sStr.lastIndexOf(" ") + 1);
+			//System.out.println("extracted yStr " + yStr);
+			return new Coord(Integer.parseInt(xStr), Integer.parseInt(yStr));
+		}
+		return null;
+	}
+	
+    private void move(int direction) {
+    	localSteps++;
+    	if(direction ==1){
+          out.println("MOVE E");
+    	}
+    	else if(direction ==2){
+            out.println("MOVE S");
+      	}
+    	else if(direction ==3){
+            out.println("MOVE W");
+      	}
+    	else{
+            out.println("MOVE N");
+      	}
+   
 
      */
 //    private void detectOraganic(MapTile[][] scanMapTiles) {
