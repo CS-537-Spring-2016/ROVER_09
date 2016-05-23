@@ -389,7 +389,7 @@ public class ROVER_09 {
 
 	}
 	/*logic 
-		private void clearReadLineBuffer() throws IOException{
+	private void clearReadLineBuffer() throws IOException{
 		while(in.ready()){
 			//System.out.println("ROVER_09 clearing readLine()");
 			String garbage = in.readLine();	
@@ -503,7 +503,6 @@ public class ROVER_09 {
             out.println("MOVE N");
       	}
    
-
      */
 //    private void detectOraganic(MapTile[][] scanMapTiles) {
 
